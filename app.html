@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>ProofShot — Proof camera</title>
+<meta name="description" content="Shoot live, seal the original fingerprint, anchor it into the Bitcoin blockchain." />
+<meta name="theme-color" content="#050506" />
+<meta name="robots" content="noindex" />
+<link rel="manifest" href="manifest.webmanifest" />
+<link rel="icon" href="icons/favicon-vt.png" type="image/png" />
+<link rel="apple-touch-icon" href="icons/apple-touch-icon-180.png" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="ProofShot" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#050506;--panel:#0b0c0e;--text:#fff;--dim:#5a5d63;--soft:#b9bcc2;
+    --line:rgba(255,255,255,.09);--accent:#3b82f6;--accent-soft:rgba(59,130,246,.1);
+    --ok:#3b82f6;--warn:#f59e0b;--bad:#f87171;
+    --safe-top:env(safe-area-inset-top,0px);--safe-bottom:env(safe-area-inset-bottom,0px);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  [hidden]{display:none!important}
+  html,body{height:100%}
+  body{background:var(--bg);color:var(--text);font-family:'Inter',system-ui,-apple-system,sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased;overscroll-behavior-y:none}
+  button{font:inherit;color:inherit;background:none;border:none;cursor:pointer;-webkit-tap-highlight-color:transparent}
+  h1,h2{font-family:'Space Grotesk','Inter',sans-serif;letter-spacing:-.02em}
+  .mono{font-family:ui-monospace,'SF Mono',Menlo,monospace}
+
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-size:14px;font-weight:600;padding:13px 20px;border-radius:100px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.03);color:#fff;transition:background .2s,color .2s}
+  .btn:active{background:rgba(255,255,255,.12)}
+  .btn[disabled]{opacity:.55;pointer-events:none}
+  .btn-accent{background:var(--accent);color:#04122e;border-color:var(--accent)}
+  .btn-block{width:100%}
+  .btn-sm{font-size:13px;padding:9px 15px}
+  .btn-danger{border-color:rgba(248,113,113,.4);color:var(--bad)}
+
+  .view{display:none;min-height:100vh;flex-direction:column}
+  .view.active{display:flex}
+
+  /* ---------- header ---------- */
+  .hd{position:sticky;top:0;z-index:10;background:rgba(5,5,6,.86);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);padding-top:var(--safe-top)}
+  .hd .in{height:60px;padding:0 18px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .brand{display:flex;align-items:center;gap:10px}
+  .brand img{width:30px;height:30px;border-radius:8px}
+  .brand b{font-family:'Space Grotesk';font-size:16px}
+  .brand span{display:block;font-size:10.5px;color:var(--dim);line-height:1.2}
+
+  /* ---------- home ---------- */
+  .home-main{flex:1;padding:22px 18px calc(120px + var(--safe-bottom));max-width:560px;width:100%;margin:0 auto}
+  .home-main h1{font-size:22px;margin-bottom:4px}
+  .home-main .sub{color:var(--dim);font-size:13px;margin-bottom:22px}
+  .empty{border:1px dashed rgba(255,255,255,.14);border-radius:20px;padding:44px 26px;text-align:center;color:var(--dim);font-size:14px;line-height:1.7}
+  .empty .glyph{font-size:34px;margin-bottom:10px;color:var(--accent)}
+  .plist{display:grid;gap:12px}
+  .pcard{display:grid;grid-template-columns:64px 1fr auto;gap:14px;align-items:center;border:1px solid var(--line);border-radius:18px;padding:12px 14px;background:linear-gradient(180deg,rgba(255,255,255,.025),transparent);text-align:left;width:100%}
+  .pcard img{width:64px;height:64px;object-fit:cover;border-radius:12px;background:#000}
+  .pcard .t{display:block;font-size:13.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .pcard .h{display:block;font-size:11.5px;color:var(--dim);margin-top:3px}
+  .pcard>span:nth-child(2){min-width:0}
+  .chip{font-size:10.5px;font-weight:700;letter-spacing:.05em;padding:5px 10px;border-radius:100px;white-space:nowrap}
+  .chip.ok{color:var(--accent);background:var(--accent-soft);border:1px solid rgba(59,130,246,.35)}
+  .chip.wait{color:var(--warn);background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.3)}
+  .chip.none{color:var(--dim);background:rgba(255,255,255,.04);border:1px solid var(--line)}
+  .ios-hint{display:grid;gap:8px;border:1px solid rgba(59,130,246,.3);background:var(--accent-soft);border-radius:16px;padding:15px 16px;margin-bottom:18px;font-size:13px;color:var(--soft);line-height:1.6}
+  .ios-hint>b{color:#fff;font-size:14px}
+  .ios-hint .shr{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:5px;background:rgba(255,255,255,.12);font-size:12px}
+  .ios-hint button{justify-self:start;margin-top:2px}
+  .fab-wrap{position:fixed;left:0;right:0;bottom:0;padding:14px 18px calc(16px + var(--safe-bottom));background:linear-gradient(180deg,transparent,rgba(5,5,6,.92) 40%);display:flex;justify-content:center;z-index:9}
+  .fab{width:100%;max-width:560px;font-size:16px;padding:17px;border-radius:100px;box-shadow:0 10px 34px rgba(59,130,246,.35)}
+
+  /* ---------- capture ---------- */
+  .cap{position:fixed;inset:0;background:#000;z-index:20;display:none;flex-direction:column}
+  .cap.active{display:flex}
+  .cap video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .cap .top{position:absolute;top:0;left:0;right:0;padding:calc(14px + var(--safe-top)) 18px 14px;display:flex;justify-content:space-between;align-items:center;background:linear-gradient(180deg,rgba(0,0,0,.55),transparent);z-index:2}
+  .cap .live{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:700;letter-spacing:.08em;color:#fff}
+  .cap .live i{width:9px;height:9px;border-radius:50%;background:var(--accent);box-shadow:0 0 10px var(--accent);animation:pulse 2s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+  .cap .note{position:absolute;bottom:calc(130px + var(--safe-bottom));left:0;right:0;text-align:center;font-size:12px;color:rgba(255,255,255,.75);padding:0 30px;z-index:2}
+  .cap .bottom{position:absolute;bottom:0;left:0;right:0;padding:0 0 calc(28px + var(--safe-bottom));display:flex;justify-content:center;background:linear-gradient(0deg,rgba(0,0,0,.55),transparent);z-index:2}
+  .shutter{width:76px;height:76px;border-radius:50%;border:5px solid #fff;background:rgba(255,255,255,.25);transition:transform .1s}
+  .shutter:active{transform:scale(.9)}
+  .cap .err{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:30px;text-align:center;color:var(--soft);font-size:14.5px;z-index:3;background:#000}
+
+  /* ---------- detail / result ---------- */
+  .det-main{flex:1;padding:20px 18px calc(30px + var(--safe-bottom));max-width:560px;width:100%;margin:0 auto}
+  .photo{border-radius:18px;overflow:hidden;background:#000;border:1px solid var(--line);aspect-ratio:4/3}
+  .photo img{width:100%;height:100%;object-fit:cover;display:block}
+  .seal-banner{display:flex;align-items:center;gap:10px;margin:16px 0;padding:13px 16px;border-radius:14px;background:var(--accent-soft);border:1px solid rgba(59,130,246,.25);font-size:13px;color:var(--soft)}
+  .seal-banner b{color:#fff}
+  .rows{display:grid;gap:13px;margin-top:6px}
+  .row{display:grid;gap:3px;padding-bottom:13px;border-bottom:1px solid var(--line)}
+  .row:last-child{border-bottom:none}
+  .row .k{font-size:11.5px;color:var(--dim)}
+  .row .v{font-weight:600;font-size:14.5px}
+  .row .v.mono{font-size:12px;word-break:break-all;font-weight:500;color:var(--soft)}
+  .row .d{font-size:12px;color:var(--dim);line-height:1.55;margin-top:3px}
+  .acts{display:grid;gap:10px;margin-top:18px}
+  .acts .r2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .linkbox{margin-top:12px;font-size:11px;color:var(--dim);word-break:break-all;background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:12px;padding:11px 13px;display:none}
+  .linkbox.show{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;line-clamp:3;overflow:hidden}
+  .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(96px + var(--safe-bottom));background:#16181c;border:1px solid var(--line);color:#fff;font-size:13px;font-weight:600;padding:11px 20px;border-radius:100px;z-index:40;opacity:0;transition:opacity .25s;pointer-events:none}
+  .toast.show{opacity:1}
+</style>
+</head>
+<body>
+
+  <!-- ============ HOME ============ -->
+  <div class="view active" id="viewHome">
+    <header class="hd"><div class="in">
+      <span class="brand">
+        <img src="icons/icon-192.png" alt="">
+        <span><b>ProofShot</b><span>Proof camera · beta</span></span>
+      </span>
+      <button class="btn btn-sm" id="btnInstall" hidden>Install app</button>
+    </div></header>
+    <main class="home-main">
+      <div class="ios-hint" id="iosHint" hidden>
+        <b>Install on iPhone</b>
+        <span>Tap <span class="shr">⬆</span> <b>Share</b> in Safari, then choose <b>“Add to Home Screen”</b>. ProofShot runs full-screen with the camera, like a native app.</span>
+        <button class="btn btn-sm" id="iosHintClose">Got it</button>
+      </div>
+      <h1>My proofs</h1>
+      <p class="sub">Live capture only — gallery upload is not available in ProofShot.</p>
+      <div class="empty" id="emptyState">
+        <div class="glyph">◎</div>
+        No proofs yet.<br>Shoot your item live and its fingerprint is anchored<br>into the Bitcoin blockchain.
+      </div>
+      <div class="plist" id="plist"></div>
+    </main>
+    <div class="fab-wrap"><button class="btn btn-accent fab" id="btnNew">◉ &nbsp;New proof</button></div>
+  </div>
+
+  <!-- ============ CAPTURE ============ -->
+  <div class="cap" id="viewCap">
+    <video id="capVideo" playsinline muted autoplay></video>
+    <canvas id="capCanvas" hidden></canvas>
+    <div class="top">
+      <span class="live"><i></i> LIVE CAPTURE</span>
+      <button class="btn btn-sm" id="btnCapClose">Cancel</button>
+    </div>
+    <div class="note">Only what this camera sees right now can become a proof.</div>
+    <div class="bottom"><button class="shutter" id="btnShutter" aria-label="Shoot"></button></div>
+    <div class="err" id="capErr" hidden>
+      <div>📷</div>
+      <div id="capErrMsg">Camera access was denied.<br>ProofShot needs the camera — it has no other way to create a proof.</div>
+      <button class="btn btn-accent" id="btnCapRetry">Try again</button>
+      <button class="btn btn-sm" id="btnCapErrClose">Back</button>
+    </div>
+  </div>
+
+  <!-- ============ DETAIL / RESULT ============ -->
+  <div class="view" id="viewDet">
+    <header class="hd"><div class="in">
+      <span class="brand">
+        <img src="icons/icon-192.png" alt="">
+        <span><b>ProofShot</b><span id="detSub">Proof detail</span></span>
+      </span>
+      <button class="btn btn-sm" id="btnBack">← My proofs</button>
+    </div></header>
+    <main class="det-main">
+      <div class="photo"><img id="detPhoto" alt="Captured item"></div>
+      <div class="seal-banner" id="sealBanner"><span id="sealIcon">⏳</span><span id="sealText"><b>Sealing…</b></span></div>
+      <div class="rows">
+        <div class="row"><span class="k">Capture time</span><span class="v" id="detTime">—</span></div>
+        <div class="row"><span class="k">Device</span><span class="v" id="detDevice">—</span></div>
+        <div class="row"><span class="k">Original fingerprint · SHA-256</span><span class="v mono" id="detHash">—</span></div>
+        <div class="row">
+          <span class="k">Blockchain anchor · Bitcoin (OpenTimestamps)</span>
+          <span class="v" id="detAnchor" style="font-size:13.5px">—</span>
+          <span class="d" id="detAnchorD" hidden></span>
+        </div>
+      </div>
+      <div class="acts">
+        <button class="btn btn-accent btn-block" id="btnShare">Share verify link</button>
+        <div class="r2">
+          <button class="btn" id="btnCopyLink">Copy link</button>
+          <button class="btn" id="btnRecheckA">Re-check anchor</button>
+        </div>
+        <div class="r2">
+          <button class="btn" id="btnSavePhoto" hidden>Save photo</button>
+          <button class="btn" id="btnSaveOts">Save .ots proof</button>
+        </div>
+        <a class="btn" id="btnBlock" target="_blank" rel="noopener" hidden>View Bitcoin block →</a>
+        <button class="btn btn-sm btn-danger" id="btnDelete">Delete this proof</button>
+      </div>
+      <div class="linkbox" id="linkBox"></div>
+    </main>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+<script src="config.js"></script>
+<script src="ots.js"></script>
+<script>
+(function(){
+"use strict";
+function $(s){return document.querySelector(s);}
+function show(el){if(el)el.hidden=false;}
+function hide(el){if(el)el.hidden=true;}
+
+/* ---------------- service worker + install ---------------- */
+if("serviceWorker" in navigator){
+  navigator.serviceWorker.register("sw.js").catch(function(){});
+}
+var deferredInstall=null;
+window.addEventListener("beforeinstallprompt",function(e){
+  e.preventDefault();deferredInstall=e;show($("#btnInstall"));
+});
+$("#btnInstall").addEventListener("click",function(){
+  if(!deferredInstall)return;
+  deferredInstall.prompt();
+  deferredInstall.userChoice.finally(function(){deferredInstall=null;hide($("#btnInstall"));});
+});
+
+/* iOS has no install prompt — show "Add to Home Screen" guidance instead */
+var isIOS=/iPhone|iPad|iPod/.test(navigator.userAgent)||(/Macintosh/.test(navigator.userAgent)&&navigator.maxTouchPoints>1);
+var isStandalone=(window.matchMedia&&window.matchMedia("(display-mode: standalone)").matches)||window.navigator.standalone===true;
+if(isIOS&&!isStandalone&&localStorage.getItem("psIosHintDone")!=="1")show($("#iosHint"));
+$("#iosHintClose").addEventListener("click",function(){
+  localStorage.setItem("psIosHintDone","1");hide($("#iosHint"));
+});
+
+/* ---------------- tiny IndexedDB helper ---------------- */
+function idb(){
+  return new Promise(function(res,rej){
+    var rq=indexedDB.open("proofshot",1);
+    rq.onupgradeneeded=function(){rq.result.createObjectStore("proofs",{keyPath:"id"});};
+    rq.onsuccess=function(){res(rq.result);};
+    rq.onerror=function(){rej(rq.error);};
+  });
+}
+function dbPut(rec){return idb().then(function(db){return new Promise(function(res,rej){
+  var tx=db.transaction("proofs","readwrite");tx.objectStore("proofs").put(rec);
+  tx.oncomplete=function(){res();};tx.onerror=function(){rej(tx.error);};
+});});}
+function dbAll(){return idb().then(function(db){return new Promise(function(res,rej){
+  var rq=db.transaction("proofs").objectStore("proofs").getAll();
+  rq.onsuccess=function(){res(rq.result||[]);};rq.onerror=function(){rej(rq.error);};
+});});}
+function dbDel(id){return idb().then(function(db){return new Promise(function(res,rej){
+  var tx=db.transaction("proofs","readwrite");tx.objectStore("proofs").delete(id);
+  tx.oncomplete=function(){res();};tx.onerror=function(){rej(tx.error);};
+});});}
+
+/* ---------------- views ---------------- */
+var current=null; /* record shown in detail view */
+function showView(id){
+  document.querySelectorAll(".view").forEach(function(v){v.classList.remove("active");});
+  $("#"+id).classList.add("active");
+  window.scrollTo(0,0);
+}
+
+/* ---------------- home list ---------------- */
+function fmtTime(iso){
+  try{return new Intl.DateTimeFormat("en-US",{month:"short",day:"numeric",hour:"2-digit",minute:"2-digit",hour12:true}).format(new Date(iso));}
+  catch(e){return iso;}
+}
+function chip(rec){
+  if(rec.status==="confirmed")return '<span class="chip ok">✓ BITCOIN #'+rec.height+'</span>';
+  if(rec.status==="pending")return '<span class="chip wait">⏳ ANCHORING</span>';
+  return '<span class="chip none">NOT ANCHORED</span>';
+}
+function renderHome(){
+  dbAll().then(function(all){
+    all.sort(function(a,b){return a.iso<b.iso?1:-1;});
+    var list=$("#plist");
+    list.innerHTML="";
+    if(!all.length){show($("#emptyState"));return;}
+    hide($("#emptyState"));
+    all.forEach(function(rec){
+      var b=document.createElement("button");
+      b.className="pcard";
+      b.innerHTML='<img src="'+rec.thumb+'" alt=""><span><span class="t">'+fmtTime(rec.iso)+'</span><span class="h mono">'+rec.hash.slice(0,4)+"·"+rec.hash.slice(4,8)+"·"+rec.hash.slice(8,12)+"…</span></span>"+chip(rec);
+      b.addEventListener("click",function(){openDetail(rec,false);});
+      list.appendChild(b);
+    });
+  });
+}
+
+/* ---------------- capture ---------------- */
+var stream=null;
+var video=$("#capVideo"),canvas=$("#capCanvas");
+$("#btnNew").addEventListener("click",openCamera);
+$("#btnCapRetry").addEventListener("click",openCamera);
+$("#btnCapClose").addEventListener("click",closeCamera);
+$("#btnCapErrClose").addEventListener("click",closeCamera);
+
+function openCamera(){
+  hide($("#capErr"));
+  $("#viewCap").classList.add("active");
+  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){camErr("This browser can't access a camera.");return;}
+  navigator.mediaDevices.getUserMedia({video:{facingMode:"environment",width:{ideal:1920}},audio:false})
+    .then(function(s){stream=s;video.srcObject=s;video.play();})
+    .catch(function(){camErr("Camera access was denied.\nProofShot needs the camera — it has no other way to create a proof.");});
+}
+function camErr(msg){$("#capErrMsg").innerHTML=msg.replace(/\n/g,"<br>");show($("#capErr"));}
+function stopStream(){if(stream){stream.getTracks().forEach(function(t){t.stop();});stream=null;}video.srcObject=null;}
+function closeCamera(){stopStream();$("#viewCap").classList.remove("active");}
+
+$("#btnShutter").addEventListener("click",function(){
+  if(!stream)return;
+  var w=video.videoWidth||1280,h=video.videoHeight||960;
+  canvas.width=w;canvas.height=h;
+  canvas.getContext("2d").drawImage(video,0,0,w,h);
+  stopStream();
+  $("#viewCap").classList.remove("active");
+  sealCapture();
+});
+
+/* ---------------- seal + anchor ---------------- */
+/* kept small: the thumb travels inside the verify link, and messengers
+   (KakaoTalk especially) break very long URLs */
+function makeThumb(srcCanvas,maxW){
+  var w=srcCanvas.width,h=srcCanvas.height;
+  if(w<=maxW)return srcCanvas.toDataURL("image/jpeg",0.6);
+  var ratio=maxW/w,c=document.createElement("canvas");
+  c.width=Math.round(w*ratio);c.height=Math.round(h*ratio);
+  c.getContext("2d").drawImage(srcCanvas,0,0,c.width,c.height);
+  return c.toDataURL("image/jpeg",0.55);
+}
+function detectDevice(){
+  var ua=navigator.userAgent;
+  if(/iPhone/.test(ua))return "iPhone";
+  if(/iPad/.test(ua))return "iPad";
+  if(/Android/.test(ua)){var m=ua.match(/Android.*?;\s([^;)]+?)(?:\sBuild|;|\))/);return (m&&m[1]?m[1].trim():"Android device");}
+  if(/Macintosh/.test(ua))return "Mac";
+  if(/Windows/.test(ua))return "Windows PC";
+  return "Web browser";
+}
+var lastFullUrl=null; /* full-res photo of the most recent capture (session only) */
+
+/* ---------------- proof store (short verify links) ----------------
+   Uploads the ORIGINAL (hashed) image + metadata to the proof-store
+   Worker so the verify link is ~60 chars and the buyer's browser can
+   re-hash the real original. Falls back to legacy long fragment links
+   when offline or PS_API is unset — capture never blocks on network. */
+function psShortLink(id){return new URL("verify.html",location.href).href+"?p="+id;}
+function psUpload(rec,fullUrl){
+  var body={v:3,iso:rec.iso,d:rec.device,h:rec.hash,img:fullUrl};
+  if(rec.ots)body.ots=PSOTS.b64urlBytes(rec.ots);
+  return fetch((window.PS_API||"")+"/p",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body)})
+    .then(function(r){if(!r.ok)throw new Error("store "+r.status);return r.json();})
+    .then(function(j){
+      rec.pid=j.id;rec.link=psShortLink(j.id);
+      /* stamp may have finished while we were uploading */
+      return psAttachOts(rec).then(function(){return rec;});
+    });
+}
+function psAttachOts(rec){
+  if(!rec.pid||!rec.ots)return Promise.resolve();
+  return fetch((window.PS_API||"")+"/p/"+rec.pid+"/ots",{method:"PUT",headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({ots:PSOTS.bytesB64url(rec.ots)})}).catch(function(){});
+}
+function refreshLinkBox(rec){
+  if(!current||current.id!==rec.id)return;
+  var lb=$("#linkBox");
+  if(lb.classList.contains("show"))lb.textContent=rec.link;
+}
+/* Buyers should only ever receive the short store link — while the original
+   is still uploading, hold the share/copy buttons instead of handing out the
+   long legacy fallback link (which can't auto-verify in the buyer's browser). */
+function setShareUI(rec){
+  if(!current||current.id!==rec.id)return;
+  var waiting=!!rec._uploading&&!rec.pid;
+  var sh=$("#btnShare"),cp=$("#btnCopyLink");
+  sh.disabled=waiting;cp.disabled=waiting;
+  sh.textContent=waiting?"Preparing link…":"Share verify link";
+  cp.textContent=waiting?"Preparing…":"Copy link";
+}
+
+function sealCapture(){
+  var fullUrl=canvas.toDataURL("image/jpeg",0.92);
+  lastFullUrl=fullUrl;
+  var thumb=makeThumb(canvas,340);
+  var bin=atob(fullUrl.split(",")[1]),bytes=new Uint8Array(bin.length);
+  for(var i=0;i<bin.length;i++)bytes[i]=bin.charCodeAt(i);
+  PSOTS.sha256(bytes).then(function(digest){
+    var now=new Date();
+    var rec={
+      id:PSOTS.hex(digest).slice(0,12)+"-"+now.getTime(),
+      iso:now.toISOString(),
+      device:detectDevice(),
+      hash:PSOTS.hex(digest),
+      thumb:thumb,
+      ots:null,status:"none",height:null,blockTime:null
+    };
+    rec.link=makeLink(rec); /* legacy fallback — replaced by short link when upload lands */
+    rec._uploading=true;
+    openDetail(rec,true);
+    dbPut(rec).then(renderHome);
+    /* upload original to proof store → short, messenger-safe link */
+    psUpload(rec,fullUrl).then(function(){
+      refreshLinkBox(rec);
+      return dbPut(rec);
+    }).catch(function(){/* offline / PS_API unset — legacy link keeps working */})
+    .then(function(){rec._uploading=false;setShareUI(rec);});
+    /* if the store is slow, don't hold the buttons hostage — release after 10 s
+       (the upload keeps going; the link upgrades in place when it lands) */
+    setTimeout(function(){if(rec._uploading){rec._uploading=false;setShareUI(rec);}},10000);
+    /* anchor into Bitcoin via OpenTimestamps */
+    setAnchorUI(rec,"working");
+    PSOTS.stamp(digest).then(function(res){
+      rec.ots=res.ots;rec.status="pending";
+      if(!rec.pid)rec.link=makeLink(rec);
+      psAttachOts(rec);
+      return dbPut(rec);
+    }).then(function(){
+      if(current&&current.id===rec.id)setAnchorUI(rec,"pending");
+      renderHome();
+    }).catch(function(){
+      if(current&&current.id===rec.id)setAnchorUI(rec,"failed");
+    });
+  });
+}
+function makeLink(rec){
+  var payload={v:2,t:fmtTime(rec.iso),iso:rec.iso,d:rec.device,h:rec.hash,img:rec.thumb};
+  if(rec.ots)payload.ots=PSOTS.b64urlBytes(rec.ots);
+  var json=JSON.stringify(payload);
+  var token=btoa(unescape(encodeURIComponent(json))).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
+  return new URL("verify.html",location.href).href+"#"+token;
+}
+
+/* ---------------- detail view ---------------- */
+function openDetail(rec,fresh){
+  current=rec;
+  $("#detSub").textContent=fresh?"Proof created":"Proof detail";
+  $("#detPhoto").src=rec.thumb;
+  $("#detTime").textContent=fmtTime(rec.iso);
+  $("#detDevice").textContent=rec.device;
+  $("#detHash").textContent=rec.hash.replace(/(.{8})/g,"$1 ").trim();
+  $("#linkBox").classList.remove("show");$("#linkBox").textContent="";
+  hide($("#btnBlock"));
+  if(fresh&&lastFullUrl)show($("#btnSavePhoto"));else hide($("#btnSavePhoto"));
+  if(rec.status==="confirmed")setAnchorUI(rec,"confirmed");
+  else if(rec.status==="pending")setAnchorUI(rec,"pending");
+  else setAnchorUI(rec,fresh?"working":"failed");
+  setShareUI(rec);
+  showView("viewDet");
+  /* quietly refresh pending anchors when opened */
+  if(!fresh&&rec.status==="pending")recheck(true);
+}
+function setAnchorUI(rec,state){
+  var a=$("#detAnchor"),d=$("#detAnchorD"),b=$("#sealBanner"),si=$("#sealIcon"),st=$("#sealText");
+  hide(d);a.style.color="";
+  if(state==="working"){
+    a.textContent="Anchoring to Bitcoin…";
+    si.textContent="⏳";st.innerHTML="<b>Sealed on this device.</b> Submitting fingerprint to OpenTimestamps…";
+  }else if(state==="pending"){
+    a.textContent="⏳ Submitted — awaiting Bitcoin confirmation (~1–6 h)";
+    a.style.color="var(--warn)";
+    si.textContent="🔗";st.innerHTML="<b>Anchor submitted.</b> Your sealed listing photo powers the buyer\u2019s verify link; only a blinded fingerprint went to the anchoring servers.";
+  }else if(state==="confirmed"){
+    a.innerHTML="✓ Anchored in Bitcoin block #"+rec.height;
+    a.style.color="var(--accent)";
+    show(d);d.textContent="Merkle root independently verified against the public Bitcoin blockchain. Block time: "+new Date(rec.blockTime).toLocaleString()+" — this fingerprint provably existed before that moment.";
+    si.textContent="✓";st.innerHTML="<b>Proof complete.</b> Verifiable by anyone, forever — no trust in ProofShot required.";
+    if(rec.explorer){$("#btnBlock").href=rec.explorer;show($("#btnBlock"));}
+  }else{
+    a.textContent="Not anchored — no connection to calendar servers";
+    a.style.color="var(--bad)";
+    si.textContent="⚠";st.innerHTML="<b>Sealed on this device only.</b> Re-check when you're back online to anchor it.";
+  }
+}
+$("#btnBack").addEventListener("click",function(){current=null;lastFullUrl=null;renderHome();showView("viewHome");});
+
+/* re-check anchor status */
+function recheck(quiet){
+  var rec=current;
+  if(!rec)return;
+  if(!rec.ots){
+    /* never submitted (offline at capture) — try to stamp now */
+    if(!quiet)toast("Submitting to calendar servers…");
+    PSOTS.stamp(PSOTS.unhex(rec.hash)).then(function(res){
+      rec.ots=res.ots;rec.status="pending";
+      if(rec.pid)psAttachOts(rec);else rec.link=makeLink(rec);
+      return dbPut(rec);
+    }).then(function(){setAnchorUI(rec,"pending");renderHome();})
+    .catch(function(){if(!quiet)toast("Still no connection");});
+    return;
+  }
+  if(!quiet)toast("Checking Bitcoin blockchain…");
+  PSOTS.checkUpgrade(rec.ots).then(function(res){
+    if(res.status==="confirmed"&&res.merkleOk!==false){
+      rec.status="confirmed";rec.height=res.height;rec.blockTime=res.blockTime;rec.explorer=res.explorer;
+      dbPut(rec).then(renderHome);
+      if(current&&current.id===rec.id)setAnchorUI(rec,"confirmed");
+      if(!quiet)toast("Confirmed in Bitcoin block #"+res.height);
+    }else if(res.status==="pending"){
+      if(!quiet)toast("Still awaiting Bitcoin confirmation");
+    }else{
+      if(!quiet)toast("Could not verify — try again later");
+    }
+  });
+}
+$("#btnRecheckA").addEventListener("click",function(){recheck(false);});
+
+/* share / copy / save */
+$("#btnShare").addEventListener("click",function(){
+  if(!current)return;
+  var link=current.link;
+  if(!navigator.share){copyLink();return;}
+  /* url-only payload — most compatible with Android share targets (incl. KakaoTalk) */
+  navigator.share({url:link}).then(function(){
+    toast("Shared");
+  }).catch(function(err){
+    if(err&&err.name==="AbortError")return; /* user closed the share sheet */
+    /* share sheet refused (payload too large, unsupported, …) → copy instead */
+    copyLink("Share unavailable — link copied. Paste it into KakaoTalk.");
+  });
+});
+function copyLink(msg){
+  var link=current.link;
+  var done=function(){toast(msg||"Link copied — paste it anywhere");var lb=$("#linkBox");lb.textContent=link;lb.classList.add("show");};
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(link).then(done,function(){legacyCopy(link);done();});}
+  else{legacyCopy(link);done();}
+}
+function legacyCopy(text){
+  var ta=document.createElement("textarea");ta.value=text;ta.style.position="absolute";ta.style.opacity="0";
+  document.body.appendChild(ta);ta.select();try{document.execCommand("copy");}catch(e){}document.body.removeChild(ta);
+}
+$("#btnCopyLink").addEventListener("click",function(){copyLink();});
+$("#btnSavePhoto").addEventListener("click",function(){
+  if(!lastFullUrl)return;
+  dl(lastFullUrl,"proofshot-"+current.hash.slice(0,8)+".jpg");
+  toast("Photo saved — keep it: it re-verifies against the anchor");
+});
+$("#btnSaveOts").addEventListener("click",function(){
+  if(!current||!current.ots){toast("Not anchored yet");return;}
+  var blob=new Blob([current.ots],{type:"application/vnd.opentimestamps.v1"});
+  dl(URL.createObjectURL(blob),"proofshot-"+current.hash.slice(0,8)+".ots");
+  toast(".ots proof saved");
+});
+$("#btnDelete").addEventListener("click",function(){
+  if(!current)return;
+  if(!confirm("Delete this proof from this phone? Anyone holding the verify link keeps their copy."))return;
+  dbDel(current.id).then(function(){current=null;renderHome();showView("viewHome");});
+});
+function dl(href,name){
+  var a=document.createElement("a");a.href=href;a.download=name;
+  document.body.appendChild(a);a.click();document.body.removeChild(a);
+}
+
+/* toast */
+var toastTimer=null;
+function toast(msg){
+  var t=$("#toast");t.textContent=msg;t.classList.add("show");
+  clearTimeout(toastTimer);toastTimer=setTimeout(function(){t.classList.remove("show");},2400);
+}
+
+renderHome();
+})();
+</script>
+</body>
+</html>
