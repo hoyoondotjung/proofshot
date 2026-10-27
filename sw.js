@@ -1,47 +1,16 @@
-/* ProofShot app service worker — shell caching for offline launch.
-   Anchoring and status checks always need the network. */
-var CACHE = "proofshot-app-v4";
-var SHELL = [
-  "app.html",
-  "config.js",
-  "ots.js",
-  "manifest.webmanifest",
-  "icons/icon-192.png",
-  "icons/icon-512.png",
-  "icons/icon-maskable-512.png",
-  "icons/apple-touch-icon-180.png",
-  "icons/favicon-vt.png"
-];
-
-self.addEventListener("install", function (e) {
-  e.waitUntil(
-    caches.open(CACHE).then(function (c) { return c.addAll(SHELL); }).then(function () { return self.skipWaiting(); })
-  );
-});
-
-self.addEventListener("activate", function (e) {
-  e.waitUntil(
-    caches.keys().then(function (keys) {
-      return Promise.all(keys.filter(function (k) { return k !== CACHE; }).map(function (k) { return caches.delete(k); }));
-    }).then(function () { return self.clients.claim(); })
-  );
-});
-
-self.addEventListener("fetch", function (e) {
-  var url = new URL(e.request.url);
-  if (e.request.method !== "GET" || url.origin !== location.origin) return;
-  /* network-first so updates land immediately; cache fallback for offline */
-  e.respondWith(
-    fetch(e.request).then(function (res) {
-      if (res.ok) {
-        var copy = res.clone();
-        caches.open(CACHE).then(function (c) { c.put(e.request, copy); });
-      }
-      return res;
-    }).catch(function () {
-      return caches.match(e.request, { ignoreSearch: false }).then(function (hit) {
-        return hit || caches.match("app.html");
-      });
-    })
-  );
+/* Cache only the public app shell. Proof-store reads always go to the network. */
+var CACHE='proofshot-app-v7';
+var SHELL=['app.html','app.js','index.html','demo.js','verify.html','verify.js','proof.js','config.js','ots.js','manifest.webmanifest','assets/vt-mark.png','icons/icon-192.png','icons/icon-512.png','icons/icon-maskable-512.png','icons/apple-touch-icon-180.png','icons/favicon-vt.png'];
+self.addEventListener('install',function(event){event.waitUntil(caches.open(CACHE).then(function(cache){return cache.addAll(SHELL);}).then(function(){return self.skipWaiting();}));});
+self.addEventListener('activate',function(event){event.waitUntil(caches.keys().then(function(keys){return Promise.all(keys.filter(function(key){return key.indexOf('proofshot-app-')===0&&key!==CACHE;}).map(function(key){return caches.delete(key);}));}).then(function(){return self.clients.claim();}));});
+self.addEventListener('fetch',function(event){
+  var url=new URL(event.request.url);
+  if(event.request.method!=='GET'||url.origin!==location.origin||/^\/p(?:\/|$)/.test(url.pathname))return;
+  var relative=url.pathname.slice(new URL(self.registration.scope).pathname.length)||'index.html';
+  if(SHELL.indexOf(relative)<0)return;
+  var key=new URL(relative,self.registration.scope).href;
+  event.respondWith((async function(){
+    try{var response=await fetch(event.request);if(response.ok){var copy=response.clone();event.waitUntil(caches.open(CACHE).then(function(cache){return cache.put(key,copy);}));}return response;}
+    catch(error){var hit=await caches.match(key);return hit||Response.error();}
+  })());
 });

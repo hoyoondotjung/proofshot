@@ -3,16 +3,16 @@
    Stamps a SHA-256 digest onto the Bitcoin blockchain via public
    OpenTimestamps calendar servers, builds a standard detached .ots
    proof file, and verifies anchored proofs against Bitcoin block
-   headers fetched from public explorers — all inside the browser.
+   headers fetched from public explorers, all inside the browser.
    Only a blinded 32-byte commitment ever leaves the device. */
 (function(global){
 "use strict";
 
 var MAGIC=new Uint8Array([0x00,0x4f,0x70,0x65,0x6e,0x54,0x69,0x6d,0x65,0x73,0x74,0x61,0x6d,0x70,0x73,0x00,0x00,0x50,0x72,0x6f,0x6f,0x66,0x00,0xbf,0x89,0xe2,0xe8,0x84,0xe8,0x92,0x94]);
 var CALENDARS=[
-  "https://a.pool.opentimestamps.org",
-  "https://b.pool.opentimestamps.org",
-  "https://a.pool.eternitywall.com",
+  "https://alice.btc.calendar.opentimestamps.org",
+  "https://bob.btc.calendar.opentimestamps.org",
+  "https://finney.calendar.eternitywall.com",
   "https://ots.btc.catallaxy.com"
 ];
 var EXPLORERS=[
@@ -21,7 +21,7 @@ var EXPLORERS=[
 ];
 var TAG_PENDING="83dfe30d2ef90c8e", TAG_BITCOIN="0588960d73d71901";
 var OP_SHA1=0x02, OP_RIPEMD=0x03, OP_SHA256=0x08, OP_KECCAK=0x67, OP_APPEND=0xf0, OP_PREPEND=0xf1;
-var MAX_MSG=4096, MAX_NODES=600;
+var MAX_MSG=4096, MAX_NODES=600, MAX_FILE=100000;
 
 /* ---------- byte helpers ---------- */
 function concat(){
@@ -43,7 +43,7 @@ function sha256(bytes){
 function sha1(bytes){
   return crypto.subtle.digest("SHA-1",bytes).then(function(buf){return new Uint8Array(buf);});
 }
-/* RIPEMD-160 — needed to verify pre-2016 OpenTimestamps proofs. */
+/* RIPEMD-160: needed to verify pre-2016 OpenTimestamps proofs. */
 var ripemd160=(function(){
   var RL=[[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15],
           [7,4,13,1,10,6,15,3,12,0,9,5,2,14,11,8],
@@ -156,67 +156,70 @@ Reader.prototype.varbytes=function(max){
    commitment op, and collects every attestation with the message of
    the node it attests to. */
 function parseTimestamp(r,msg,out,state){
-  function step(m){
+  async function step(m,path){
+    if(path.length>256)throw new Error("ots: tree too deep");
+    var tag;
+    do {
+      tag=r.byte();
+      await child(tag===0xff?r.byte():tag,m,path);
+    } while(tag===0xff);
+  }
+  async function child(tag,m,path){
     if(++state.nodes>MAX_NODES)throw new Error("ots: tree too large");
-    for(;;){
-      var tag=r.byte();
-      if(tag!==0xff)return child(tag,m);
-      var branchTag=r.byte();
-      var p=child(branchTag,m);
-      if(p&&p.then)return p.then(function(){/* continue loop after async child */ return step2(m);});
-    }
-  }
-  /* re-entry point after an async branch: keep consuming siblings */
-  function step2(m){
-    for(;;){
-      var tag=r.byte();
-      if(tag!==0xff)return child(tag,m);
-      var branchTag=r.byte();
-      var p=child(branchTag,m);
-      if(p&&p.then)return p.then(function(){return step2(m);});
-    }
-  }
-  function child(tag,m){
+    var start=r.pos-1;
     if(tag===0x00){
-      var attTag=hex(r.bytes(8));
-      var payload=r.varbytes(MAX_MSG);
-      var pr=new Reader(payload);
-      if(attTag===TAG_PENDING){
-        var uri=new TextDecoder().decode(pr.varbytes(1000));
-        out.push({type:"pending",uri:uri,msg:m});
-      }else if(attTag===TAG_BITCOIN){
-        out.push({type:"bitcoin",height:pr.varint(),msg:m});
-      }else{
-        out.push({type:"unknown",tag:attTag,msg:m});
-      }
-      return null;
+      var attTag=hex(r.bytes(8)),payload=r.varbytes(MAX_MSG),pr=new Reader(payload);
+      var att={type:"unknown",tag:attTag,msg:m,path:path,raw:r.buf.slice(start,r.pos)};
+      if(attTag===TAG_PENDING){att.type="pending";att.uri=new TextDecoder().decode(pr.varbytes(1000));}
+      else if(attTag===TAG_BITCOIN){att.type="bitcoin";att.height=pr.varint();}
+      if(att.type!=="unknown"&&pr.pos!==payload.length)throw new Error("ots: trailing attestation data");
+      out.push(att);return;
     }
     var arg,next;
-    if(tag===OP_APPEND){arg=r.varbytes(MAX_MSG);next=Promise.resolve(concat(m,arg));}
-    else if(tag===OP_PREPEND){arg=r.varbytes(MAX_MSG);next=Promise.resolve(concat(arg,m));}
-    else if(tag===OP_SHA256){next=sha256(m);}
-    else if(tag===OP_SHA1){next=sha1(m);}
-    else if(tag===OP_RIPEMD){next=Promise.resolve(ripemd160(m));}
-    else if(tag===OP_KECCAK){throw new Error("ots: unsupported hash op 0x"+tag.toString(16));}
-    else{throw new Error("ots: unknown op 0x"+tag.toString(16));}
-    return next.then(function(m2){
-      if(m2.length>MAX_MSG)throw new Error("ots: message too large");
-      return step(m2);
-    });
+    if(tag===OP_APPEND){arg=r.varbytes(MAX_MSG);next=concat(m,arg);}
+    else if(tag===OP_PREPEND){arg=r.varbytes(MAX_MSG);next=concat(arg,m);}
+    else if(tag===OP_SHA256){next=await sha256(m);}
+    else if(tag===OP_SHA1){next=await sha1(m);}
+    else if(tag===OP_RIPEMD){next=ripemd160(m);}
+    else{throw new Error("ots: unsupported op 0x"+tag.toString(16));}
+    if(next.length>MAX_MSG)throw new Error("ots: message too large");
+    await step(next,path.concat([r.buf.slice(start,r.pos)]));
   }
-  return Promise.resolve().then(function(){return step(msg);});
+  return step(msg,[]);
 }
+
+/* Rebuild a canonical tree, merging shared operation paths across calendars.
+   Retaining the paths also lets us save upgraded proofs, not just their status. */
+function serializeTree(atts){
+  function node(){return {atts:new Map(),ops:new Map()};}
+  var root=node();
+  atts.forEach(function(att){
+    var cursor=root;
+    att.path.forEach(function(op){var key=hex(op);if(!cursor.ops.has(key))cursor.ops.set(key,{bytes:op,child:node()});cursor=cursor.ops.get(key).child;});
+    cursor.atts.set(hex(att.raw),att.raw);
+  });
+  function encode(n){
+    var parts=Array.from(n.atts.keys()).sort().map(function(k){return n.atts.get(k);});
+    Array.from(n.ops.keys()).sort().forEach(function(k){var op=n.ops.get(k);parts.push(concat(op.bytes,encode(op.child)));});
+    if(!parts.length)throw new Error("ots: empty tree");
+    return concat.apply(null,parts.map(function(p,i){return i<parts.length-1?concat(new Uint8Array([0xff]),p):p;}));
+  }
+  return encode(root);
+}
+function serializeFile(digest,atts){return concat(MAGIC,varint(1),new Uint8Array([OP_SHA256]),digest,serializeTree(atts));}
 
 /* Parse a serialized timestamp (no file header) from `msg`.
    Resolves to a list of attestations. */
 function parseTree(bytes,msg){
+  if(bytes.length>MAX_FILE)throw new Error("ots: file too large");
   var out=[],r=new Reader(bytes);
-  return parseTimestamp(r,msg,out,{nodes:0}).then(function(){return out;});
+  return parseTimestamp(r,msg,out,{nodes:0}).then(function(){if(r.pos!==bytes.length)throw new Error("ots: trailing data");return out;});
 }
 
 /* Parse a detached .ots file. Resolves to
    {digest:Uint8Array, attestations:[...]} */
 function parseFile(otsBytes){
+  if(!(otsBytes instanceof Uint8Array)||otsBytes.length>MAX_FILE)throw new Error("ots: invalid size");
   var r=new Reader(otsBytes);
   var head=r.bytes(MAGIC.length);
   if(hex(head)!==hex(MAGIC))throw new Error("ots: bad header");
@@ -227,6 +230,7 @@ function parseFile(otsBytes){
   var digest=r.bytes(32);
   var out=[];
   return parseTimestamp(r,digest,out,{nodes:0}).then(function(){
+    if(r.pos!==otsBytes.length)throw new Error("ots: trailing data");
     return {digest:digest,attestations:out};
   });
 }
@@ -240,7 +244,7 @@ function fetchTimeout(url,opts,ms){
 }
 
 /* ---------- stamping ----------
-   digest: Uint8Array(32) — SHA-256 of the original file.
+   digest: Uint8Array(32), SHA-256 of the original file.
    Resolves to {ots:Uint8Array, calendars:[uri], commitment:hex}. */
 function stamp(digest){
   if(!(digest instanceof Uint8Array)||digest.length!==32)return Promise.reject(new Error("digest must be 32 bytes"));
@@ -260,21 +264,18 @@ function stamp(digest){
         /* sanity: must parse and contain at least one attestation */
         return parseTree(bytes,commitment).then(function(atts){
           if(!atts.length)throw new Error("calendar: no attestation");
-          return {cal:cal,bytes:bytes};
+          return {cal:cal,bytes:bytes,atts:atts};
         });
       });
     });
     return Promise.allSettled(posts).then(function(results){
       var ok=results.filter(function(x){return x.status==="fulfilled";}).map(function(x){return x.value;});
       if(!ok.length)throw new Error("No calendar server reachable");
-      var parts=[MAGIC,varint(1),new Uint8Array([OP_SHA256]),digest,
-                 new Uint8Array([OP_APPEND]),varbytes(nonce),new Uint8Array([OP_SHA256])];
-      for(var i=0;i<ok.length;i++){
-        if(i<ok.length-1)parts.push(new Uint8Array([0xff]));
-        parts.push(ok[i].bytes);
-      }
+      var prefix=[concat(new Uint8Array([OP_APPEND]),varbytes(nonce)),new Uint8Array([OP_SHA256])];
+      var atts=[];
+      ok.forEach(function(result){result.atts.forEach(function(att){atts.push(Object.assign({},att,{path:prefix.concat(att.path)}));});});
       return {
-        ots:concat.apply(null,parts),
+        ots:serializeFile(digest,atts),
         calendars:ok.map(function(x){return x.cal;}),
         commitment:hex(commitment)
       };
@@ -287,52 +288,67 @@ function stamp(digest){
    {status:"confirmed", height, blockHash, blockTime, merkleOk, explorer}
    {status:"pending", uris:[...]}
    {status:"invalid", reason} */
-function checkUpgrade(otsBytes){
-  return parseFile(otsBytes).then(function(parsed){
-    var bitcoin=parsed.attestations.filter(function(a){return a.type==="bitcoin";});
-    if(bitcoin.length)return verifyBitcoin(bitcoin[0]);
-    var pending=parsed.attestations.filter(function(a){return a.type==="pending";});
-    if(!pending.length)return {status:"invalid",reason:"no attestations"};
-    var tries=pending.map(function(att){
-      return fetchTimeout(att.uri.replace(/\/$/,"")+"/timestamp/"+hex(att.msg),
-        {headers:{"Accept":"application/vnd.opentimestamps.v1"}},12000)
-        .then(function(res){
-          if(!res.ok)return null; /* still pending at this calendar */
-          return res.arrayBuffer().then(function(buf){
-            return parseTree(new Uint8Array(buf),att.msg).then(function(atts){
-              var btc=atts.filter(function(a){return a.type==="bitcoin";});
-              return btc.length?btc[0]:null;
-            });
-          });
-        }).catch(function(){return null;});
-    });
-    return Promise.all(tries).then(function(found){
-      var btc=found.filter(Boolean);
-      if(btc.length)return verifyBitcoin(btc[0]);
-      return {status:"pending",uris:pending.map(function(a){return a.uri;})};
-    });
-  }).catch(function(e){
-    return {status:"invalid",reason:e.message||String(e)};
-  });
+function calendarURL(uri){
+  try {
+    var url=new URL(uri);
+    var hosts=CALENDARS.map(function(c){return new URL(c).hostname;}).concat(["a.pool.opentimestamps.org","b.pool.opentimestamps.org","a.pool.eternitywall.com","btc.calendar.catallaxy.com"]);
+    if(hosts.indexOf(url.hostname)<0||url.username||url.password||url.port||url.search||url.hash||!/^https?:$/.test(url.protocol))return null;
+    url.protocol="https:";return url.href.replace(/\/$/,"");
+  }catch(e){return null;}
+}
+async function checkUpgrade(otsBytes){
+  try {
+    var parsed=await parseFile(otsBytes),all=parsed.attestations.slice();
+    var bitcoin=all.filter(function(a){return a.type==="bitcoin";});
+    var pending=all.filter(function(a){return a.type==="pending";});
+    var reached=false;
+    if(!bitcoin.length){
+      var updates=await Promise.all(pending.map(async function(att){
+        var uri=calendarURL(att.uri);if(!uri)return [];
+        try{
+          var response=await fetchTimeout(uri+"/timestamp/"+hex(att.msg),{headers:{"Accept":"application/vnd.opentimestamps.v1"},credentials:"omit",redirect:"error"},12000);
+          if(response.status===404){reached=true;return [];}
+          if(!response.ok)return [];
+          var atts=await parseTree(new Uint8Array(await response.arrayBuffer()),att.msg);reached=true;
+          return atts.map(function(a){return Object.assign({},a,{path:att.path.concat(a.path)});});
+        }catch(e){return [];}
+      }));
+      updates.forEach(function(atts){all=all.concat(atts);});
+      bitcoin=all.filter(function(a){return a.type==="bitcoin";});
+    }
+    var failure=null;
+    for(var i=0;i<bitcoin.length;i++){
+      var result=await verifyBitcoin(bitcoin[i]);
+      if(result.status==="confirmed"&&result.merkleOk===true){result.ots=serializeFile(parsed.digest,all);return result;}
+      if(!failure||result.status==="unavailable")failure=result;
+    }
+    if(failure)return failure;
+    if(!pending.length)return {status:"invalid",reason:"no Bitcoin or calendar attestations"};
+    return {status:reached?"pending":"unavailable",reason:reached?"not confirmed":"calendar unavailable or unsupported"};
+  }catch(e){return {status:"invalid",reason:e.message||String(e)};}
 }
 
 /* Compare the attested message against the Bitcoin block's merkle root. */
 function verifyBitcoin(att){
   function tryExplorer(idx){
-    if(idx>=EXPLORERS.length)return Promise.resolve({status:"confirmed",height:att.height,merkleOk:null,reason:"explorer unreachable"});
+    if(idx>=EXPLORERS.length)return Promise.resolve({status:"unavailable",height:att.height,merkleOk:null,reason:"explorer unreachable"});
     var ex=EXPLORERS[idx];
     return fetchTimeout(ex.height+att.height,{},10000)
       .then(function(res){if(!res.ok)throw 0;return res.text();})
       .then(function(blockHash){
+        if(!/^[0-9a-f]{64}$/.test(blockHash.trim()))throw new Error("bad block hash");
         return fetchTimeout(ex.block+blockHash.trim(),{},10000)
           .then(function(res){if(!res.ok)throw 0;return res.json();})
           .then(function(block){
+            if(block.height!==att.height||!Number.isFinite(block.timestamp)||!/^([0-9a-f]{64})$/.test(block.merkle_root||""))throw new Error("bad block data");
+            var matched=reverseHex(hex(att.msg))===block.merkle_root;
             return {
-              status:"confirmed",
+              status:matched?"confirmed":"invalid",
+              reason:matched?null:"Bitcoin merkle root mismatch",
               height:att.height,
               blockHash:blockHash.trim(),
               blockTime:block.timestamp*1000,
-              merkleOk:reverseHex(hex(att.msg))===block.merkle_root,
+              merkleOk:matched,
               explorer:ex.web+blockHash.trim()
             };
           });
@@ -344,7 +360,7 @@ function verifyBitcoin(att){
 
 /* ---------- info (no network) ---------- */
 function info(otsBytes){
-  return parseFile(otsBytes).then(function(parsed){
+  return Promise.resolve().then(function(){return parseFile(otsBytes);}).then(function(parsed){
     return {
       digest:hex(parsed.digest),
       pending:parsed.attestations.filter(function(a){return a.type==="pending";}).map(function(a){return a.uri;}),

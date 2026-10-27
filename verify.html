@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Real-item verification — ProofShot</title>
-<meta name="description" content="Independently verify the live-capture record a seller sealed with ProofShot." />
+<title>File verification | ProofShot</title>
+<meta name="description" content="Compare a shared photo with its file fingerprint and Bitcoin timestamp." />
 <meta name="theme-color" content="#050506" />
 <meta name="robots" content="noindex" />
 <link rel="icon" href="icons/favicon-vt.png" type="image/png" />
@@ -14,7 +14,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
 <style>
   :root{
-    --bg:#050506;--bg-soft:#0b0c0e;--text:#fff;--dim:#5a5d63;
+    --bg:#050506;--bg-soft:#0b0c0e;--text:#fff;--dim:#a0a7b3;
     --line:rgba(255,255,255,.09);--accent:#3b82f6;--accent-soft:rgba(59,130,246,.1);
     --ok:#34d399;--warn:#fbbf24;--bad:#f87171;
   }
@@ -46,7 +46,7 @@
   .verdict{display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:14px;border:1px solid var(--line);margin-bottom:18px}
   .verdict .vic{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-size:17px;flex:none;background:rgba(255,255,255,.06)}
   .verdict .vt strong{display:block;font-size:15.5px}
-  .verdict .vt span{display:block;font-size:12.5px;color:#b9bcc2;margin-top:1px;font-weight:300}
+  .verdict .vt span{display:block;font-size:13.5px;color:#b9bcc2;margin-top:1px;font-weight:400}
   .verdict.ok{border-color:rgba(52,211,153,.35);background:rgba(52,211,153,.06)}
   .verdict.ok .vic{background:rgba(52,211,153,.15);color:var(--ok)}
   .verdict.warn{border-color:rgba(251,191,36,.3);background:rgba(251,191,36,.05)}
@@ -56,7 +56,7 @@
 
   .v-photo{aspect-ratio:4/3;border-radius:16px;overflow:hidden;background:#000;border:1px solid var(--line)}
   .v-photo img{width:100%;height:100%;object-fit:cover;display:block}
-  .v-meta{display:flex;justify-content:space-between;gap:10px;margin:12px 2px 18px;font-size:12.5px;color:#b9bcc2}
+  .v-meta{display:grid;gap:8px;margin:12px 2px 18px;font-size:12.5px;color:#b9bcc2}
   .v-meta b{color:#fff;font-weight:600}
 
   /* 3-step checklist */
@@ -70,7 +70,7 @@
   .step.busy .sic{color:var(--accent)}
   .step .st{min-width:0}
   .step .st b{display:block;font-size:14px}
-  .step .st p{font-size:12.5px;color:#9a9da3;margin-top:2px;font-weight:300;word-break:keep-all}
+  .step .st p{font-size:13.5px;color:#b9bcc2;margin-top:2px;font-weight:400;word-break:keep-all}
   .step .st p a{color:var(--accent);font-weight:500}
   .step .st .act{margin-top:8px;display:flex;gap:8px;flex-wrap:wrap}
 
@@ -81,7 +81,7 @@
   .drop{border:1.5px dashed rgba(255,255,255,.18);border-radius:16px;padding:18px 16px;text-align:center;cursor:pointer;transition:all .25s}
   .drop:hover,.drop.over{border-color:var(--accent);background:var(--accent-soft)}
   .drop b{font-size:13.5px}
-  .drop p{font-size:12px;color:var(--dim);margin-top:3px;font-weight:300;word-break:keep-all}
+  .drop p{font-size:12px;color:var(--dim);margin-top:3px;font-weight:400;word-break:keep-all}
   .drop .res{margin-top:8px;font-size:13px;font-weight:600}
   .drop .res.ok{color:var(--ok)}
   .drop .res.bad{color:var(--bad)}
@@ -96,30 +96,40 @@
   .ex-row{display:grid;gap:3px}
   .ex-row .k{font-size:11.5px;color:var(--dim)}
   .ex-row .v{font-size:12.5px;word-break:break-all;color:#b9bcc2}
-  .ex-note{font-size:12px;color:#9a9da3;font-weight:300;line-height:1.6;word-break:keep-all}
+  .ex-note{font-size:13px;color:#9a9da3;font-weight:400;line-height:1.6;word-break:keep-all}
   .ex-note strong{color:#fff;font-weight:600}
   .ex-acts{display:flex;gap:8px;flex-wrap:wrap}
 
   .v-error{text-align:center}
   .v-error .ic{font-size:40px;margin-bottom:10px}
   .v-error h1{font-size:22px}
-  .v-error p{margin-top:12px;color:#b9bcc2;font-size:15px;font-weight:300;word-break:keep-all}
+  .v-error p{margin-top:12px;color:#b9bcc2;font-size:15px;font-weight:400;word-break:keep-all}
   .v-error .v-cta{margin-top:24px}
   .v-cta{margin-top:6px}
 
-  .v-foot{text-align:center;padding:26px;font-size:12.5px;color:var(--dim);font-weight:300}
+  .v-foot{text-align:center;padding:26px;font-size:12.5px;color:var(--dim);font-weight:400}
   .v-foot strong{color:#b9bcc2;font-weight:500}
+ .header-actions{display:flex;gap:8px;align-items:center}
+  button{font:inherit;color:inherit}
+  .drop{cursor:default}.drop b{display:block;margin-top:10px}
+  button:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid #93c5fd;outline-offset:4px}
+  .btn:disabled{opacity:.55;cursor:wait}
+  #proofLimits{margin-bottom:18px}
+  @media(max-width:460px){.v-header .nav{height:auto;min-height:70px;gap:12px;flex-wrap:wrap;padding:12px 16px}.v-card{padding:18px}.v-meta{flex-wrap:wrap}}
+  @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+.v-meta>span:first-child{display:grid;gap:3px}.v-meta span{overflow-wrap:anywhere}
 </style>
 </head>
 <body>
+<noscript><p style="padding:24px;background:#111827;color:#fff">JavaScript is required for file records and verification. 파일 기록과 검증을 사용하려면 JavaScript를 켜세요.</p></noscript>
 
   <header class="v-header">
     <div class="nav">
       <a class="brand" href="index.html">
         <img class="mark" src="assets/vt-mark.png" alt="Valuation Technology">
-        <span class="names"><strong>ProofShot</strong><span id="brandSub">Real-item verification</span></span>
+        <span class="names"><strong>ProofShot</strong><span id="brandSub">File verification</span></span>
       </a>
-      <a class="btn btn-sm" href="index.html" id="navAbout">About ProofShot</a>
+      <div class="header-actions"><button class="btn btn-sm" data-language>한국어</button><a class="btn btn-sm" href="index.html" id="navAbout">About ProofShot</a></div>
     </div>
   </header>
 
@@ -134,30 +144,30 @@
     <!-- Verified state -->
     <div class="v-card" id="verifiedCard" hidden>
 
-      <div class="verdict" id="verdict">
+      <div class="verdict" id="verdict" role="status" aria-live="polite">
         <div class="vic" id="verdictIc"><span class="spin"></span></div>
-        <div class="vt"><strong id="verdictT">Verifying…</strong><span id="verdictS">Your browser is checking this directly — one moment.</span></div>
+        <div class="vt"><strong id="verdictT">Verifying…</strong><span id="verdictS">Your browser is checking this directly. Please wait a moment.</span></div>
       </div>
 
-      <div class="v-photo"><img id="vPhoto" alt="Sealed photo"></div>
+      <div class="v-photo"><img id="vPhoto" alt="Shared photo"></div>
       <div class="v-meta">
-        <span><span id="mCaptured">Captured</span> <b id="vTime">—</b></span>
-        <span id="vDevice">—</span>
+        <span><span id="mCaptured">Captured</span> <b id="vTime">-</b></span>
+        <span id="vDevice">-</span>
       </div>
 
       <div class="steps">
         <div class="step" id="s1">
           <div class="sic" id="s1ic">1</div>
-          <div class="st"><b id="s1t">Is this photo the untouched original?</b><p id="s1p">Your browser checks whether a single pixel has changed since capture.</p></div>
+          <div class="st"><b id="s1t">Does the file match the fingerprint?</b><p id="s1p">Your browser compares the exact file bytes with the recorded SHA-256 fingerprint.</p></div>
         </div>
         <div class="step" id="s2">
           <div class="sic" id="s2ic">2</div>
-          <div class="st"><b id="s2t">Was it sealed at the moment of capture?</b><p id="s2p">We confirm the seal created at capture belongs to this very photo.</p></div>
+          <div class="st"><b id="s2t">Does the timestamp reference this fingerprint?</b><p id="s2p">Matching fingerprints alone do not establish capture time or authenticity.</p></div>
         </div>
         <div class="step" id="s3">
           <div class="sic" id="s3ic">3</div>
-          <div class="st"><b id="s3t">Is it recorded beyond anyone's reach?</b>
-            <p id="s3p">We check it against a public record no one can alter — the Bitcoin blockchain.</p>
+          <div class="st"><b id="s3t">Is the Bitcoin timestamp confirmed?</b>
+            <p id="s3p">We check it against the Bitcoin blockchain, a public record.</p>
             <span class="act">
               <button class="btn btn-sm" id="btnRecheck" hidden>Re-check</button>
               <a class="btn btn-sm" id="btnExplorer" target="_blank" rel="noopener" hidden>View Bitcoin block →</a>
@@ -170,28 +180,28 @@
         <summary id="exSum">Verify it yourself (optional)</summary>
         <div class="ex-body">
           <div class="drop" id="drop">
+            <button type="button" class="btn btn-sm" id="btnChooseFile" data-ko="사진 파일 선택">Choose photo file</button>
             <b id="dropT">Check a photo file you received</b>
-            <p id="dropP">Drop the photo file the seller sent you — we instantly check whether it is the very same sealed original.</p>
-            <div class="res" id="dropRes" hidden></div>
+            <p id="dropP">Choose or drop the exact original file. Recompression changes its fingerprint.</p>
+            <div class="res" id="dropRes" role="status" aria-live="polite" hidden></div>
             <input type="file" id="dropInput" accept="image/*" hidden>
           </div>
-          <div class="ex-row"><span class="k" id="exK1">Original fingerprint · SHA-256</span><span class="v mono" id="vHash">—</span></div>
-          <div class="ex-row"><span class="k" id="exK2">Capture time (ISO)</span><span class="v mono" id="vIso">—</span></div>
+          <div class="ex-row"><span class="k" id="exK1">Original fingerprint · SHA-256</span><span class="v mono" id="vHash">-</span></div>
+          <div class="ex-row"><span class="k" id="exK2">Reported time (unverified)</span><span class="v mono" id="vIso">-</span></div>
           <div class="ex-acts">
             <button class="btn btn-sm" id="btnOtsDl" hidden>⬇ .ots proof file</button>
             <a class="btn btn-sm" href="https://opentimestamps.org" target="_blank" rel="noopener">opentimestamps.org ↗</a>
           </div>
           <p class="ex-note" id="exNote">
-            Every check on this page runs <strong>inside your own browser</strong> —
+            Every check on this page runs <strong>inside your own browser</strong>:
             recomputing the photo's fingerprint, reading the .ots proof, and comparing
-            the merkle root of the Bitcoin block. There is no need to trust ProofShot's
-            servers. You can also download the .ots file and verify it independently at
+            the merkle root of the Bitcoin block. Public explorers are external data sources. You can also download the .ots file and verify it independently at
             opentimestamps.org or with any OpenTimestamps client.
           </p>
         </div>
       </details>
 
-      <a class="btn btn-accent btn-block v-cta" href="index.html#demo" id="ctaMake">Create your own proof →</a>
+      <p class="ex-note" id="proofLimits"></p><a class="btn btn-accent btn-block v-cta" href="index.html#demo" id="ctaMake">Try the web demo →</a>
     </div>
 
     <!-- Error state -->
@@ -211,334 +221,7 @@
 
 <script src="config.js"></script>
 <script src="ots.js"></script>
-<script>
-(function(){
-  "use strict";
-  function $(s){return document.querySelector(s);}
-  var y=$("#vYear");if(y)y.textContent=new Date().getFullYear();
-  window.addEventListener("hashchange",function(){location.reload();});
-
-  /* ---------- language: English by default, Korean for Korean browsers.
-     Override with ?lang=ko / ?lang=en for testing or explicit links. ---------- */
-  var langQ=new URLSearchParams(location.search).get("lang");
-  var LANG=(langQ==="ko"||langQ==="en")?langQ:(((navigator.language||"").toLowerCase().indexOf("ko")===0)?"ko":"en");
-  var LOCALE=LANG==="ko"?"ko-KR":"en-US";
-  document.documentElement.lang=LANG;
-
-  /* dynamic (JS-set) messages */
-  var MSG=LANG==="ko"?{
-    notFound:"이 링크의 증명 기록을 찾을 수 없습니다.",
-    storeFail:"증명 저장소에 연결하지 못했습니다. 잠시 후 다시 시도해 주세요.",
-    vBadT:"인증 실패",vBadS:"이 사진은 봉인된 원본과 일치하지 않습니다. 거래에 주의하세요.",
-    vBusyT:"확인하는 중…",vBusyS:"이 브라우저가 직접 확인하고 있습니다 — 잠시만요.",
-    vOkT:"실물 인증 완료",vOkS:"촬영 순간 봉인된, 편집되지 않은 원본 사진입니다.",
-    vOkPendT:"실물 인증 완료",vOkPendS:"원본과 봉인 확인이 끝났습니다. 블록체인 영구 기록은 자동으로 마무리됩니다.",
-    vSealOkT:"봉인 확인 완료",vSealOkS:"촬영 순간의 봉인은 유효합니다. 화면 사진의 원본 여부는 아래 '직접 확인하기'에서 파일로 검증할 수 있습니다.",
-    vNoSealT:"봉인 대기 중",vNoSealS:"봉인이 아직 첨부되지 않았습니다. 잠시 후 다시 확인해 주세요.",
-    s1busy:"사진을 확인하는 중…",
-    s1ok:"네. 지금 보고 있는 사진이 촬영 당시 봉인된 원본 그대로입니다.",
-    s1bad:"아니요. 이 사진은 봉인된 원본과 다릅니다 — 편집되었거나 교체된 사진입니다.",
-    s1fail:"자동 확인을 완료하지 못했습니다. 아래 '직접 확인하기'에서 파일로 검증할 수 있습니다.",
-    s1legacy:"이 링크에는 미리보기만 담겨 있어 이 항목은 자동 확인에서 제외됩니다. 아래 봉인 확인은 그대로 진행됩니다.",
-    s2corrupt:"봉인 정보를 읽을 수 없습니다.",
-    s2noseal:"봉인이 아직 도착하지 않았습니다. 잠시 후 '다시 확인'을 눌러 주세요.",
-    s3needseal:"봉인 확인이 끝난 뒤에 진행됩니다.",
-    s2busy:"봉인을 확인하는 중…",
-    s2mismatch:"이 봉인은 다른 사진의 것입니다.",
-    s3stopped:"사진 불일치로 확인을 중단했습니다.",
-    s2ok:"네. 촬영 순간 만들어진 봉인이 이 사진의 것이 맞습니다.",
-    s3cannot:"확인을 진행할 수 없습니다.",
-    s3busy:"공개 기록과 대조하는 중…",
-    s3ok:function(h,t){return "네. 비트코인 <b>#"+h+"번 블록</b>에 영구 기록되어 있습니다. "+t+" 이전에 이 사진이 존재했다는 사실은 이제 누구도 바꿀 수 없습니다.";},
-    s3merkle:function(h){return "#"+h+"번 블록에 기록되었다고 주장하지만 검증에 실패했습니다.";},
-    s3explorer:function(h){return "#"+h+"번 블록에 기록되어 있습니다. 지금은 공개 기록 조회가 원활하지 않아, 독립 대조는 잠시 후 '다시 확인'으로 할 수 있습니다.";},
-    s3pending:"기록이 접수되어 확정을 기다리고 있습니다 — 보통 1–6시간 안에 자동으로 완료됩니다. 봉인 자체는 이미 유효합니다.",
-    s3fail:function(r){return "기록을 확인하지 못했습니다 ("+r+").";},
-    unknown:"알 수 없음",
-    dropBusy:"파일을 확인하는 중…",
-    dropOk:"✓ 받은 파일이 봉인된 원본과 완전히 일치합니다",
-    dropBad:"✕ 이 파일은 봉인된 원본과 다릅니다 (편집되었거나 다른 파일)",
-    dropRead:"파일을 읽지 못했습니다 — 다시 시도해 주세요"
-  }:{
-    notFound:"The proof record for this link couldn't be found.",
-    storeFail:"Couldn't reach the proof store. Please try again shortly.",
-    vBadT:"Verification failed",vBadS:"This photo does not match the sealed original. Proceed with caution.",
-    vBusyT:"Checking…",vBusyS:"Your browser is checking this directly — one moment.",
-    vOkT:"Real item verified",vOkS:"Sealed at the moment of capture — an unedited original.",
-    vOkPendT:"Real item verified",vOkPendS:"Original and seal confirmed. The permanent blockchain record completes automatically.",
-    vSealOkT:"Seal confirmed",vSealOkS:"The capture-moment seal is valid. To confirm the preview is the original, use “Verify it yourself” below.",
-    vNoSealT:"Seal pending",vNoSealS:"No seal is attached yet — please check back shortly.",
-    s1busy:"Checking the photo…",
-    s1ok:"Yes. The photo you are looking at is exactly the original sealed at capture.",
-    s1bad:"No. This photo differs from the sealed original — it was edited or replaced.",
-    s1fail:"The automatic check couldn't finish. You can verify with the file under “Verify it yourself” below.",
-    s1legacy:"This link carries only a preview, so this automatic check is skipped. The seal checks below still run.",
-    s2corrupt:"The seal data couldn't be read.",
-    s2noseal:"The seal hasn't arrived yet. Tap “Re-check” in a moment.",
-    s3needseal:"Runs after the seal check completes.",
-    s2busy:"Checking the seal…",
-    s2mismatch:"This seal belongs to a different photo.",
-    s3stopped:"Stopped — the photo doesn't match.",
-    s2ok:"Yes. The seal created at the moment of capture belongs to this photo.",
-    s3cannot:"The check cannot proceed.",
-    s3busy:"Comparing against the public record…",
-    s3ok:function(h,t){return "Yes. Permanently recorded in Bitcoin <b>block #"+h+"</b>. That this photo existed before "+t+" can no longer be changed by anyone.";},
-    s3merkle:function(h){return "Claims a record in block #"+h+" but failed verification.";},
-    s3explorer:function(h){return "Recorded in block #"+h+". The public record is hard to reach right now — try “Re-check” shortly for the independent comparison.";},
-    s3pending:"The record has been submitted and is being finalized — usually done automatically within 1–6 hours. The seal itself is already valid.",
-    s3fail:function(r){return "Couldn't verify the record ("+r+").";},
-    unknown:"unknown",
-    dropBusy:"Checking the file…",
-    dropOk:"✓ The received file matches the sealed original exactly",
-    dropBad:"✕ This file differs from the sealed original (edited, or a different file)",
-    dropRead:"Couldn't read the file — please try again"
-  };
-
-  /* static copy overrides (base HTML is English) */
-  if(LANG==="ko"){
-    document.title="원본 검증 — ProofShot";
-    var KO={
-      brandSub:"원본 검증",navAbout:"ProofShot 소개",loadingT:"증명을 불러오는 중…",
-      verdictT:MSG.vBusyT,verdictS:MSG.vBusyS,mCaptured:"촬영",
-      s1t:"사진이 원본 그대로인가요",s1p:"촬영 이후 1픽셀이라도 바뀌었는지 이 브라우저가 직접 확인합니다.",
-      s2t:"촬영 순간에 봉인됐나요",s2p:"촬영과 동시에 만들어진 봉인이 이 사진의 것인지 확인합니다.",
-      s3t:"위조할 수 없게 기록됐나요",s3p:"누구도 바꿀 수 없는 공개 기록(비트코인 블록체인)과 직접 대조합니다.",
-      btnRecheck:"다시 확인",btnExplorer:"비트코인 블록 보기 →",
-      dropT:"받은 사진 파일로 직접 확인",
-      dropP:"판매자가 채팅으로 보내준 사진 파일을 끌어다 놓으면, 봉인된 원본과 같은 파일인지 즉시 확인됩니다.",
-      exSum:"직접 확인하기 (선택)",exK1:"원본 지문 · SHA-256",exK2:"촬영 시각 (ISO)",
-      btnOtsDl:"⬇ .ots 증명 파일",
-      exNote:"이 페이지의 모든 검증은 <strong>여러분의 브라우저 안에서</strong> 직접 실행됩니다. 사진의 지문 재계산, .ots 증명 해석, 비트코인 블록의 머클루트 대조까지 — ProofShot 서버를 신뢰할 필요가 없습니다. .ots 파일을 내려받아 opentimestamps.org 또는 OpenTimestamps 클라이언트로 독립 검증할 수도 있습니다.",
-      ctaMake:"나도 증명 만들기 →",errT:"증명서를 열 수 없습니다",
-      errMsg:"판매자가 공유한 ProofShot 검증 링크로 다시 접속해 주세요.",errCta:"ProofShot 증명 만들기 →"
-    };
-    for(var k in KO){var el=document.getElementById(k);if(el)el.innerHTML=KO[k];}
-    var ph=document.getElementById("vPhoto");if(ph)ph.alt="봉인된 사진";
-  }
-
-  var loading=$("#loadingCard"),verified=$("#verifiedCard"),error=$("#errorCard");
-  var btnRecheck=$("#btnRecheck"),btnOtsDl=$("#btnOtsDl"),btnExplorer=$("#btnExplorer");
-
-  /* step state: id -> "ok"|"warn"|"bad"|"busy" */
-  var state={s1:null,s2:null,s3:null};
-  function setStep(id,st,msg){
-    state[id]=st;
-    var row=$("#"+id),ic=$("#"+id+"ic"),p=$("#"+id+"p");
-    row.className="step "+(st==="busy"?"busy":st);
-    ic.innerHTML=st==="ok"?"✓":st==="bad"?"✕":st==="warn"?"!":st==="busy"?'<span class="spin"></span>':id.slice(1);
-    if(msg!==undefined)p.innerHTML=msg;
-    paintVerdict();
-  }
-  function paintVerdict(){
-    var v=$("#verdict"),ic=$("#verdictIc"),t=$("#verdictT"),s=$("#verdictS");
-    function set(cls,icon,T,S){v.className="verdict"+(cls?" "+cls:"");ic.innerHTML=icon;t.textContent=T;s.textContent=S;}
-    var vals=[state.s1,state.s2,state.s3];
-    if(vals.indexOf("bad")>-1){
-      set("bad","✕",MSG.vBadT,MSG.vBadS);
-    }else if(vals.indexOf(null)>-1||vals.indexOf("busy")>-1){
-      set("",'<span class="spin"></span>',MSG.vBusyT,MSG.vBusyS);
-    }else if(state.s2==="ok"&&state.s1==="ok"){
-      /* photo + seal both verified — the Bitcoin record only strengthens it,
-         so a still-finalizing anchor must not read as a failure to buyers */
-      if(state.s3==="ok")set("ok","✓",MSG.vOkT,MSG.vOkS);
-      else set("ok","✓",MSG.vOkPendT,MSG.vOkPendS);
-    }else if(state.s2==="ok"){
-      /* legacy/preview link: seal is valid, the displayed photo itself wasn't auto-checked */
-      set("warn","✓",MSG.vSealOkT,MSG.vSealOkS);
-    }else{
-      set("warn","⏳",MSG.vNoSealT,MSG.vNoSealS);
-    }
-  }
-
-  /* ---------- load record: store (?p= / #p=) or legacy (#payload) ---------- */
-  var qs=new URLSearchParams(location.search);
-  var pid=qs.get("p")||((location.hash||"").match(/^#p=([0-9a-f]{12})$/)||[])[1]||null;
-  var legacyRaw=!pid?(location.hash||"").replace(/^#/,""):null;
-
-  if(pid){
-    fetch((window.PS_API||"")+"/p/"+pid,{cache:"no-store"}).then(function(r){
-      if(!r.ok)throw new Error(r.status===404?MSG.notFound:MSG.storeFail);
-      return r.json();
-    }).then(function(rec){
-      start({mode:"store",iso:rec.iso,d:rec.d,h:rec.h,img:rec.img,ots:rec.ots||null});
-    }).catch(function(e){fail(e.message);});
-  }else if(legacyRaw){
-    var data=parseLegacy(legacyRaw);
-    if(!data){fail();}
-    else start({mode:"legacy",iso:data.iso||null,t:data.t,d:data.d,h:(data.h||"").toLowerCase(),img:data.img||null,ots:data.ots||null});
-  }else{
-    fail();
-  }
-
-  function fail(msg){
-    loading.hidden=true;verified.hidden=true;error.hidden=false;
-    if(msg)$("#errMsg").textContent=msg;
-  }
-
-  /* ---------- main verification ---------- */
-  var REC=null,otsBytes=null;
-  function start(rec){
-    REC=rec;
-    loading.hidden=true;verified.hidden=false;
-
-    if(rec.img)$("#vPhoto").src=rec.img;else $("#vPhoto").parentNode.style.display="none";
-    $("#vTime").textContent=rec.iso?new Date(rec.iso).toLocaleString(LOCALE):(rec.t||"—");
-    $("#vDevice").textContent=rec.d||"—";
-    $("#vHash").textContent=rec.h?groupHash(rec.h):"—";
-    $("#vIso").textContent=rec.iso||"—";
-
-    /* STEP 1 — recompute the photo's own hash */
-    if(rec.mode==="store"&&rec.img&&rec.h){
-      setStep("s1","busy",MSG.s1busy);
-      dataUrlBytes(rec.img).then(PSOTS.sha256).then(function(dg){
-        if(PSOTS.hex(dg)===rec.h.toLowerCase()){
-          setStep("s1","ok",MSG.s1ok);
-        }else{
-          setStep("s1","bad",MSG.s1bad);
-        }
-      }).catch(function(){setStep("s1","warn",MSG.s1fail);});
-    }else{
-      setStep("s1","warn",MSG.s1legacy);
-      /* preview-only link: the file check is the only way to confirm the
-         original, so surface the folded section instead of hiding it */
-      var ex=document.querySelector("details.expert");if(ex)ex.open=true;
-    }
-
-    /* STEP 2 — .ots digest must equal the sealed hash */
-    if(rec.ots&&window.PSOTS){
-      try{otsBytes=PSOTS.bytesB64url(rec.ots);}catch(e){otsBytes=null;}
-    }
-    if(!otsBytes){
-      setStep("s2",rec.ots?"bad":"warn",rec.ots?MSG.s2corrupt:MSG.s2noseal);
-      setStep("s3","warn",MSG.s3needseal);
-      btnRecheck.hidden=false;
-      btnRecheck.addEventListener("click",function(){location.reload();});
-      return;
-    }
-    setStep("s2","busy",MSG.s2busy);
-    /* STEP 2 runner — the OTS parser can fault transiently on the very first
-       parse right after page load (as a rejected promise, or a synchronous
-       throw). A valid proof parses reliably a moment later, so we retry with a
-       short backoff — decoding a fresh byte array each attempt — before ever
-       declaring failure. Wrapping the call turns a sync throw into a rejection.
-       Uses the closure's `rec` (always set) rather than shared module state. */
-    (function runStep2(attempt){
-      var delays=[120,300,700,1400];
-      var fresh;try{fresh=PSOTS.bytesB64url(rec.ots);}catch(e){fresh=null;}
-      Promise.resolve().then(function(){
-        if(!fresh)throw new Error("decode failed");
-        return PSOTS.info(fresh);
-      }).then(function(inf){
-        if(rec.h&&inf.digest!==rec.h.toLowerCase()){
-          setStep("s2","bad",MSG.s2mismatch);
-          setStep("s3","warn",MSG.s3stopped);
-          return;
-        }
-        otsBytes=fresh; /* the array that parsed cleanly — used by STEP 3 & download */
-        setStep("s2","ok",MSG.s2ok);
-        btnOtsDl.hidden=false;
-        checkAnchor();
-        btnRecheck.addEventListener("click",checkAnchor);
-      }).catch(function(){
-        if(attempt<delays.length){setTimeout(function(){runStep2(attempt+1);},delays[attempt]);return;}
-        setStep("s2","bad",MSG.s2corrupt);
-        setStep("s3","warn",MSG.s3cannot);
-      });
-    })(0);
-  }
-
-  /* STEP 3 — independent Bitcoin verification */
-  function checkAnchor(){
-    setStep("s3","busy",MSG.s3busy);
-    btnRecheck.hidden=true;
-    PSOTS.checkUpgrade(otsBytes).then(function(res){
-      if(res.status==="confirmed"){
-        if(res.merkleOk===true){
-          setStep("s3","ok",MSG.s3ok(res.height,new Date(res.blockTime).toLocaleString(LOCALE)));
-          if(res.explorer){btnExplorer.href=res.explorer;btnExplorer.hidden=false;}
-        }else if(res.merkleOk===false){
-          setStep("s3","bad",MSG.s3merkle(res.height));
-        }else{
-          setStep("s3","warn",MSG.s3explorer(res.height));
-          btnRecheck.hidden=false;
-        }
-      }else if(res.status==="pending"){
-        setStep("s3","warn",MSG.s3pending);
-        btnRecheck.hidden=false;
-      }else{
-        setStep("s3","bad",MSG.s3fail(res.reason||MSG.unknown));
-        btnRecheck.hidden=false;
-      }
-    });
-  }
-
-  /* ---------- self-check: drag & drop the received file ---------- */
-  var drop=$("#drop"),dropInput=$("#dropInput"),dropRes=$("#dropRes");
-  drop.addEventListener("click",function(){dropInput.click();});
-  ["dragover","dragenter"].forEach(function(ev){drop.addEventListener(ev,function(e){e.preventDefault();drop.classList.add("over");});});
-  ["dragleave","drop"].forEach(function(ev){drop.addEventListener(ev,function(e){e.preventDefault();drop.classList.remove("over");});});
-  drop.addEventListener("drop",function(e){
-    var f=e.dataTransfer&&e.dataTransfer.files&&e.dataTransfer.files[0];
-    if(f)checkFile(f);
-  });
-  dropInput.addEventListener("change",function(e){
-    var f=e.target.files&&e.target.files[0];
-    if(f)checkFile(f);
-  });
-  function checkFile(file){
-    if(!REC||!REC.h)return;
-    dropRes.hidden=false;dropRes.className="res";
-    dropRes.innerHTML='<span class="spin"></span> '+MSG.dropBusy;
-    file.arrayBuffer().then(function(buf){
-      return PSOTS.sha256(new Uint8Array(buf));
-    }).then(function(dg){
-      if(PSOTS.hex(dg)===REC.h.toLowerCase()){
-        dropRes.className="res ok";
-        dropRes.textContent=MSG.dropOk;
-      }else{
-        dropRes.className="res bad";
-        dropRes.textContent=MSG.dropBad;
-      }
-    }).catch(function(){
-      dropRes.className="res bad";
-      dropRes.textContent=MSG.dropRead;
-    });
-  }
-
-  /* ---------- helpers ---------- */
-  btnOtsDl.addEventListener("click",function(){
-    if(!otsBytes)return;
-    var blob=new Blob([otsBytes],{type:"application/vnd.opentimestamps.v1"});
-    var a=document.createElement("a");
-    a.href=URL.createObjectURL(blob);
-    a.download="proofshot-"+(REC&&REC.h?REC.h.slice(0,8):"proof")+".ots";
-    document.body.appendChild(a);a.click();document.body.removeChild(a);
-    setTimeout(function(){URL.revokeObjectURL(a.href);},4000);
-  });
-
-  function dataUrlBytes(dataUrl){
-    return new Promise(function(resolve,reject){
-      try{
-        var bin=atob(dataUrl.split(",")[1]),out=new Uint8Array(bin.length);
-        for(var i=0;i<bin.length;i++)out[i]=bin.charCodeAt(i);
-        resolve(out);
-      }catch(e){reject(e);}
-    });
-  }
-  function parseLegacy(raw){
-    try{
-      var obj=JSON.parse(b64urlDecode(raw));
-      if(!obj||(!obj.h&&!obj.img))return null;
-      return obj;
-    }catch(e){return null;}
-  }
-  function b64urlDecode(str){
-    str=str.replace(/-/g,"+").replace(/_/g,"/");
-    while(str.length%4)str+="=";
-    return decodeURIComponent(escape(atob(str)));
-  }
-  function groupHash(h){return h.replace(/(.{8})/g,"$1 ").trim();}
-})();
-</script>
+<script src="proof.js"></script>
+<script src="verify.js"></script>
 </body>
 </html>

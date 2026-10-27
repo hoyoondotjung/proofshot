@@ -3,24 +3,23 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>ProofShot — We don't make photos. We make proof.</title>
-<meta name="description" content="ProofShot is real-item authentication infrastructure for the AI era of secondhand trade. We prove the capture process, not just the picture." />
+<title>ProofShot | We don't make photos. We make proof.</title>
+<meta name="description" content="Keep original photos, compare file fingerprints and verify Bitcoin timestamps. Physical items and capture times are not authenticated." />
 <meta name="theme-color" content="#050506" />
 <link rel="icon" href="icons/favicon-vt.png" type="image/png" />
-<link rel="manifest" href="manifest.webmanifest" />
 <link rel="apple-touch-icon" href="icons/apple-touch-icon-180.png" />
 <!-- Open Graph / social preview -->
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="ProofShot" />
 <meta property="og:url" content="https://proofshotglobal.pages.dev/" />
-<meta property="og:title" content="ProofShot — We don't make photos. We make proof." />
-<meta property="og:description" content="Real-item authentication infrastructure for the AI era of secondhand trade. We prove the moment of capture, so a fake photo can't pass." />
+<meta property="og:title" content="ProofShot | We don't make photos. We make proof." />
+<meta property="og:description" content="Photo fingerprint and timestamp records for the AI era of secondhand trade. We prove the moment of capture, so a fake photo can't pass." />
 <meta property="og:image" content="https://proofshotglobal.pages.dev/og.png" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="ProofShot — We don't make photos. We make proof." />
-<meta name="twitter:description" content="Real-item authentication infrastructure for the AI era of secondhand trade." />
+<meta name="twitter:title" content="ProofShot | We don't make photos. We make proof." />
+<meta name="twitter:description" content="Photo fingerprint and timestamp records for the AI era of secondhand trade." />
 <meta name="twitter:image" content="https://proofshotglobal.pages.dev/og.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -30,8 +29,8 @@
     --bg:#050506;
     --bg-soft:#0b0c0e;
     --text:#ffffff;
-    --dim:#5a5d63;
-    --dimmer:#2a2c30;
+    --dim:#a0a7b3;
+    --dimmer:#9098a5;
     --line:rgba(255,255,255,.09);
     --accent:#3b82f6;
     --accent-soft:rgba(59,130,246,.14);
@@ -131,7 +130,7 @@
   .hero h1 .lite{color:var(--dimmer);transition:color .1s}
   .hero-sub{
     margin-top:34px;max-width:620px;font-size:clamp(17px,2vw,21px);
-    color:#b9bcc2;font-weight:300;line-height:1.6;
+    color:#b9bcc2;font-weight:400;line-height:1.6;
   }
   .hero-cta{margin-top:46px;display:flex;gap:14px;flex-wrap:wrap}
   .hero-meta{
@@ -170,7 +169,7 @@
   .reveal-text .word.on{color:#fff}
 
   .big-statement{font-size:clamp(30px,5vw,62px);line-height:1.12;max-width:980px}
-  .lead{font-size:clamp(18px,2.2vw,24px);color:#b9bcc2;font-weight:300;max-width:720px;line-height:1.65;margin-top:26px}
+  .lead{font-size:clamp(18px,2.2vw,24px);color:#b9bcc2;font-weight:400;max-width:720px;line-height:1.65;margin-top:26px}
 
   /* ---------- generic reveal-up ---------- */
   .up{opacity:0;transform:translateY(34px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
@@ -189,13 +188,13 @@
   .shift{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:64px}
   @media(max-width:820px){.shift{grid-template-columns:1fr}}
   .shift-card{border:1px solid var(--line);border-radius:20px;padding:40px 36px;position:relative;overflow:hidden;background:linear-gradient(180deg,rgba(255,255,255,.02),transparent)}
-  .shift-card.bad{opacity:.62}
+  .shift-card.bad{opacity:1}
   .shift-card .tag{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);margin-bottom:20px}
   .shift-card.good .tag{color:var(--accent)}
   .shift-card h3{font-size:27px;margin-bottom:18px}
-  .shift-card p{color:#9a9ea5;font-size:15.5px;font-weight:300;line-height:1.65}
-  .shift-card .x{font-size:13px;color:#6a6e74;margin-top:18px}
-  .shift-card .strike{text-decoration:line-through;color:#54585e}
+  .shift-card p{color:#9a9ea5;font-size:15.5px;font-weight:400;line-height:1.65}
+  .shift-card .x{font-size:13px;color:#a0a7b3;margin-top:18px}
+  .shift-card .strike{text-decoration:line-through;color:#a0a7b3}
 
   /* ---------- steps ---------- */
   .steps{counter-reset:s;margin-top:62px;border-top:1px solid var(--line)}
@@ -208,7 +207,7 @@
   .step .idx{font-family:'Space Grotesk';font-size:15px;color:var(--accent);counter-increment:s}
   .step .idx::before{content:"0" counter(s)}
   .step h3{font-size:clamp(20px,2.4vw,28px);font-weight:600}
-  .step p{color:#9a9ea5;font-size:15px;font-weight:300;line-height:1.6}
+  .step p{color:#9a9ea5;font-size:15px;font-weight:400;line-height:1.6}
   @media(max-width:820px){.step{grid-template-columns:50px 1fr;}.step p{grid-column:1/-1}}
 
   /* ---------- feature chips ---------- */
@@ -222,7 +221,7 @@
   .feat:hover{transform:translateY(-4px);border-color:rgba(59,130,246,.4);background:rgba(59,130,246,.04)}
   .feat .ic{width:38px;height:38px;border-radius:10px;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;margin-bottom:18px;color:var(--accent)}
   .feat h4{font-size:17px;font-family:'Space Grotesk';font-weight:600;margin-bottom:9px}
-  .feat p{font-size:14px;color:#8e9299;font-weight:300;line-height:1.6}
+  .feat p{font-size:14px;color:#8e9299;font-weight:400;line-height:1.6}
 
   /* ---------- pricing ---------- */
   .price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:60px}
@@ -234,9 +233,9 @@
   .price.feat-on .stage{color:var(--accent)}
   .price .amt{font-family:'Space Grotesk';font-size:40px;font-weight:600;letter-spacing:-.02em}
   .price .amt small{font-size:15px;color:var(--dim);font-weight:400}
-  .price .desc{margin-top:14px;color:#9a9ea5;font-size:14.5px;font-weight:300;line-height:1.6}
+  .price .desc{margin-top:14px;color:#9a9ea5;font-size:14.5px;font-weight:400;line-height:1.6}
   .price ul{list-style:none;margin-top:24px;display:flex;flex-direction:column;gap:12px}
-  .price li{font-size:14px;color:#c4c7cc;display:flex;gap:11px;align-items:flex-start;font-weight:300}
+  .price li{font-size:14px;color:#c4c7cc;display:flex;gap:11px;align-items:flex-start;font-weight:400}
   .price li::before{content:"✓";color:var(--accent);font-size:13px;margin-top:2px}
   .badge-pop{position:absolute;top:-11px;right:26px;background:var(--accent);color:#04122e;font-size:11px;font-weight:700;letter-spacing:.08em;padding:4px 12px;border-radius:100px;text-transform:uppercase}
 
@@ -254,10 +253,10 @@
   /* ---------- footer ---------- */
   footer{border-top:1px solid var(--line);padding:60px clamp(20px,5vw,46px) 50px;position:relative;z-index:2}
   .foot-inner{max-width:var(--maxw);margin:0 auto;display:flex;justify-content:space-between;gap:40px;flex-wrap:wrap}
-  .foot-tag{max-width:340px;color:var(--dim);font-size:14px;font-weight:300;margin-top:16px;line-height:1.6}
+  .foot-tag{max-width:340px;color:var(--dim);font-size:14px;font-weight:400;margin-top:16px;line-height:1.6}
   .foot-cols{display:flex;gap:64px;flex-wrap:wrap}
   .foot-col h5{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);margin-bottom:16px}
-  .foot-col a{display:block;font-size:14.5px;color:#b9bcc2;margin-bottom:11px;transition:color .25s;font-weight:300}
+  .foot-col a{display:block;font-size:14.5px;color:#b9bcc2;margin-bottom:11px;transition:color .25s;font-weight:400}
   .foot-col a:hover{color:#fff}
   .foot-bottom{max-width:var(--maxw);margin:48px auto 0;padding-top:26px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:12.5px;color:var(--dim)}
 </style>
@@ -265,7 +264,7 @@
 <style id="addon">
   .demo-shots{display:grid;grid-template-columns:1fr 1fr;gap:34px;margin-top:60px;align-items:start}
   .demo-shots figure{margin:0}.demo-shots img{width:100%;height:auto;display:block}
-  .demo-shots figcaption{margin-top:14px;color:#9a9ea5;font-size:15px;font-weight:300;text-align:center}
+  .demo-shots figcaption{margin-top:14px;color:#9a9ea5;font-size:15px;font-weight:400;text-align:center}
   .demo-flow{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:34px;color:var(--dim);font-size:13.5px;letter-spacing:.04em;flex-wrap:wrap}
   .demo-flow b{color:#fff;font-weight:500}.demo-flow .ar{color:var(--accent)}
   @media(max-width:760px){.demo-shots{grid-template-columns:1fr;gap:46px}}
@@ -273,19 +272,6 @@
   /* ---------- interactive live demo ---------- */
   [hidden]{display:none!important}
 
-  /* ---------- mobile app install bar ---------- */
-  .install-bar{position:fixed;left:14px;right:14px;bottom:14px;z-index:70;display:none;flex-direction:column;gap:0;background:#0c1322;border:1px solid rgba(59,130,246,.35);border-radius:18px;box-shadow:0 14px 44px rgba(0,0,0,.55)}
-  .install-bar .main{display:flex;align-items:center;gap:12px;padding:12px 14px}
-  .install-bar img{width:40px;height:40px;border-radius:10px;flex:none}
-  .install-bar .tx{flex:1;min-width:0}
-  .install-bar .tx b{display:block;font-size:14px;line-height:1.3}
-  .install-bar .tx span{display:block;font-size:11.5px;color:#8a8f98;line-height:1.4}
-  .install-bar .go{flex:none;font-size:13px;font-weight:700;padding:10px 18px;border-radius:100px;background:var(--accent);color:#04122e;border:none;cursor:pointer}
-  .install-bar .x{flex:none;width:30px;height:30px;border-radius:50%;border:none;background:rgba(255,255,255,.07);color:#8a8f98;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center}
-  .install-bar .ios-steps{border-top:1px solid rgba(255,255,255,.08);padding:12px 16px 14px;font-size:12.5px;color:#b9bcc2;line-height:1.7}
-  .install-bar .ios-steps b{color:#fff}
-  .install-bar .ios-steps .shr{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:4px;background:rgba(255,255,255,.12);font-size:11px}
-  @media(max-width:820px){.install-bar.on{display:flex}}
   .demo-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:stretch;margin-top:58px}
   .demo-panel{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:22px;padding:24px;background:linear-gradient(180deg,rgba(255,255,255,.025),transparent)}
   .demo-panel .panel-tag{display:inline-flex;align-items:center;gap:9px;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);font-weight:600;margin-bottom:16px}
@@ -294,7 +280,7 @@
   .stage video,.stage canvas,.stage img.shot{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none}
   .stage.is-live video{display:block}
   .stage.is-shot canvas,.stage.is-shot img.shot{display:block}
-  .stage .placeholder{padding:24px;color:var(--dim);font-size:14px;font-weight:300;line-height:1.6}
+  .stage .placeholder{padding:24px;color:var(--dim);font-size:14px;font-weight:400;line-height:1.6}
   .stage .placeholder .glyph{margin-bottom:10px;opacity:.5;display:flex;justify-content:center}
   .stage .placeholder .glyph svg{width:34px;height:34px;display:block}
   .stage .live-flag{position:absolute;top:12px;left:12px;z-index:2;display:none;align-items:center;gap:7px;background:rgba(8,18,46,.78);border:1px solid var(--accent);color:#fff;font-size:11px;font-weight:600;letter-spacing:.04em;padding:5px 11px;border-radius:100px;backdrop-filter:blur(5px)}
@@ -303,8 +289,8 @@
   @keyframes dpulse{0%,100%{opacity:1}50%{opacity:.25}}
   .demo-controls{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
   .demo-controls .btn{font-size:13px;padding:9px 16px}
-  .demo-note{margin-top:14px;font-size:12.5px;color:var(--dim);font-weight:300;line-height:1.55}
-  .result-empty{flex:1;display:grid;place-items:center;text-align:center;color:var(--dim);font-size:14px;font-weight:300;min-height:240px;line-height:1.6}
+  .demo-note{margin-top:14px;font-size:12.5px;color:var(--dim);font-weight:400;line-height:1.55}
+  .result-empty{flex:1;display:grid;place-items:center;text-align:center;color:var(--dim);font-size:14px;font-weight:400;min-height:240px;line-height:1.6}
   .result-card{display:none}
   .result-card.show{display:block}
   .rc-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
@@ -334,69 +320,79 @@
   .vi:hover img{transform:scale(1.06)}
   .vi .ov{position:absolute;inset:0;background:linear-gradient(180deg,transparent 45%,rgba(4,5,7,.86));display:flex;flex-direction:column;justify-content:flex-end;padding:20px}
   .vi-name{font-family:'Space Grotesk';font-weight:600;font-size:17px;color:#fff}
-  .vi-cat{font-size:13px;color:#b9bcc2;font-weight:300;margin-top:2px}
+  .vi-cat{font-size:13px;color:#b9bcc2;font-weight:400;margin-top:2px}
   .vbadge{position:absolute;top:13px;left:13px;display:inline-flex;align-items:center;gap:7px;background:rgba(8,18,46,.78);border:1px solid var(--accent);color:var(--accent);font-size:11px;font-weight:600;letter-spacing:.04em;padding:5px 11px;border-radius:100px;backdrop-filter:blur(5px)}
   .vbadge .c{width:14px;height:14px;border-radius:50%;background:var(--accent);color:#04122e;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800}
-  .vi-note{margin-top:26px;color:var(--dim);font-size:13.5px;font-weight:300}
+  .vi-note{margin-top:26px;color:var(--dim);font-size:13.5px;font-weight:400}
 
   .team-lead{display:grid;grid-template-columns:170px 1fr;gap:38px;align-items:center;margin-top:60px;border:1px solid var(--line);border-radius:26px;padding:42px;background:linear-gradient(180deg,rgba(255,255,255,.025),transparent)}
   .team-lead img{width:170px;height:170px;border-radius:22px;object-fit:cover;border:1px solid var(--line)}
   .team-lead .role,.team-member .role{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);font-weight:600}
-  .team-lead h3{font-size:30px;margin:8px 0 4px}.team-lead .sub{color:#b9bcc2;font-weight:300;font-size:15.5px}
+  .team-lead h3{font-size:30px;margin:8px 0 4px}.team-lead .sub{color:#b9bcc2;font-weight:400;font-size:15.5px}
   .team-lead ul{list-style:none;margin:18px 0 14px;padding:0;display:flex;flex-direction:column;gap:9px}
-  .team-lead li{font-size:14.5px;color:#c4c7cc;font-weight:300;display:flex;gap:10px;align-items:flex-start}
+  .team-lead li{font-size:14.5px;color:#c4c7cc;font-weight:400;display:flex;gap:10px;align-items:flex-start}
   .team-lead li::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--accent);margin-top:8px;flex:0 0 auto}
-  .team-lead .desc{color:#9a9ea5;font-weight:300;font-size:14.5px;line-height:1.6;max-width:560px}
+  .team-lead .desc{color:#9a9ea5;font-weight:400;font-size:14.5px;line-height:1.6;max-width:560px}
   .team-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:20px}
   .team-member{display:flex;gap:20px;align-items:center;border:1px solid var(--line);border-radius:20px;padding:26px 28px;background:rgba(255,255,255,.012);transition:transform .4s var(--ease),border-color .4s}
   .team-member:hover{transform:translateY(-4px);border-color:rgba(59,130,246,.4)}
   .team-member img{width:78px;height:78px;border-radius:50%;object-fit:cover;border:1px solid var(--line);flex:0 0 auto}
-  .team-member h4{font-size:19px;font-family:'Space Grotesk';margin:7px 0 4px}.team-member p{font-size:13.5px;color:#9a9ea5;font-weight:300}
+  .team-member h4{font-size:19px;font-family:'Space Grotesk';margin:7px 0 4px}.team-member p{font-size:13.5px;color:#9a9ea5;font-weight:400}
   @media(max-width:760px){.team-lead{grid-template-columns:1fr}.team-grid{grid-template-columns:1fr}}
+  [hidden]{display:none!important}
+  .brand{flex-shrink:0}.nav-actions{display:flex;gap:10px;align-items:center;flex-shrink:0}.nav-toggle{display:none}
+  .nav-links{gap:22px}.btn{justify-content:center}.nav-actions .btn{white-space:nowrap}
+  a:focus-visible,button:focus-visible{outline:3px solid #93c5fd;outline-offset:4px}
+  section[id]{scroll-margin-top:100px}.demo-error{color:#fca5a5;font-size:14px;line-height:1.6;margin-top:12px}
+  .placeholder{color:#a0a7b3!important}.reveal-text .word{color:#a0a7b3}
+  .demo-controls .btn:disabled,.rc-actions .btn:disabled{opacity:.5;cursor:wait}
+  @media(max-width:1100px){.nav-toggle{display:inline-flex}.nav-links{display:none;position:absolute;top:100%;left:16px;right:16px;background:#11151d;border:1px solid var(--line);border-radius:16px;padding:18px;flex-wrap:wrap;box-shadow:0 16px 40px #0008}.nav-links.is-open{display:flex}.nav-links a{color:#e2e8f0;padding:10px 14px}}
+  @media(max-width:520px){nav{padding:14px 16px}.nav-actions{gap:7px}.nav-actions .btn{font-size:12px;padding:9px 10px}#navDemo{display:none}.brand{font-size:17px}.vt-mark{height:25px}.hero{padding-top:130px}.rc-actions .btn{width:100%}}
+  @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}.up{opacity:1!important;transform:none!important}}
 </style>
 
 </head>
 <body>
+<noscript><p style="padding:24px;background:#111827;color:#fff">JavaScript is required for file records and verification. 파일 기록과 검증을 사용하려면 JavaScript를 켜세요.</p></noscript>
 <div id="progress"></div>
 <canvas id="mapCanvas"></canvas>
 <div class="bg-vignette"></div>
 
 <nav id="nav">
   <a href="#top" class="brand"><img class="vt-mark" src="assets/vt-mark.png" alt="Valuation Technology">ProofShot</a>
-  <div class="nav-links">
-    <a href="#problem">Problem</a>
-    <a href="#solution">Solution</a>
-    <a href="#demo">Demo</a>
-    <a href="#verified">Verified</a>
-    <a href="#team">Team</a>
-    <a href="#pricing">Pricing</a>
-    <a href="app.html">App</a>
+  <div class="nav-links" id="navLinks">
+    <a href="#problem" data-ko="문제">Problem</a>
+    <a href="#solution" data-ko="해결 방식">Solution</a>
+    <a href="#demo" data-ko="데모">Demo</a>
+    <a href="#verified" data-ko="사진 예시">Gallery</a>
+    <a href="#team" data-ko="팀">Team</a>
+    <a href="#pricing" data-ko="요금">Pricing</a>
   </div>
-  <a href="app.html" class="btn btn-accent" id="navDownloadApp">Download app →</a>
+  <div class="nav-actions"><button class="btn language" data-language>한국어</button><a href="#demo" class="btn btn-accent" id="navDemo" data-ko="웹 데모 →">Web demo →</a><button class="btn nav-toggle" id="navToggle" aria-controls="navLinks" aria-expanded="false" data-ko="메뉴">Menu</button></div>
 </nav>
 
 <div class="wrap" id="top">
 
   <!-- HERO -->
   <section class="hero inner">
-    <div class="eyebrow up">Real-item authentication infrastructure</div>
-    <h1 class="up" id="heroTitle">We don't make<br/>photos.<br/><span class="lite">We make proof.</span></h1>
-    <p class="hero-sub up">In the AI era, a believable photo no longer proves a real object exists. ProofShot is the trust layer for secondhand trade — we don't detect fakes, we make the moment of capture impossible to fake.</p>
+    <div class="eyebrow up" data-ko="사진 지문과 타임스탬프 기록">Photo fingerprint and timestamp records</div>
+    <h1 class="up" id="heroTitle" data-ko="사진 원본을&lt;br&gt;보관하고,&lt;br&gt;&lt;span class='lite'&gt;기록을 확인하세요.&lt;/span&gt;">We don't make<br/>photos.<br/><span class="lite">We make proof.</span></h1>
+    <p class="hero-sub up" data-ko="사진 원본을 보관하고 파일 지문과 Bitcoin 타임스탬프를 확인하세요. 실물 진위·소유권·실제 촬영 시각은 별도로 확인해야 합니다.">Keep a photo original, record its file fingerprint and check its timestamp against Bitcoin. Use this record alongside your own checks: it does not establish an item's authenticity, ownership or the actual capture time.</p>
     <div class="hero-cta up">
-      <a href="#demo" class="btn btn-accent">Start demo</a>
-      <a href="#solution" class="btn">See how it works</a>
+      <a href="#demo" class="btn btn-accent" data-ko="데모 시작">Start demo</a>
+      <a href="#solution" class="btn" data-ko="사용 방법 보기">See how it works</a>
     </div>
     <div class="hero-meta up">
-      <div class="stat"><span class="num">₩1.7T</span><span class="lab">Lost to deal fraud in Korea, 2021–2025</span></div>
-      <div class="stat"><span class="num">461,759</span><span class="lab">Reported fraud cases in 5 years</span></div>
-      <div class="stat"><span class="num">₩43T</span><span class="lab">Korean secondhand market, 2025</span></div>
+      <div class="stat"><span class="num">₩1.7T</span><span class="lab" data-ko="국내 직거래 사기 피해액 · 2021–2025">Lost to deal fraud in Korea, 2021–2025</span></div>
+      <div class="stat"><span class="num">461,759</span><span class="lab" data-ko="5년간 신고된 사기 건수">Reported fraud cases in 5 years</span></div>
+      <div class="stat"><span class="num">₩43T</span><span class="lab" data-ko="2025년 국내 중고거래 시장">Korean secondhand market, 2025</span></div>
     </div>
     <div class="scroll-hint"><span class="bar"></span>Scroll</div>
   </section>
 
   <!-- PRESS / AS SEEN ON -->
   <div class="press">
-    <div class="press-label">The trust crisis — as reported by</div>
+    <div class="press-label" data-ko="신뢰 문제를 다룬 보도와 연구">The trust crisis, as reported by</div>
     <div class="marquee">
       <div class="marquee-track" id="track">
         <div class="press-item"><span>◆</span>Korea JoongAng Daily</div>
@@ -413,102 +409,102 @@
 
   <!-- PROBLEM -->
   <section id="problem" class="inner">
-    <div class="eyebrow up">The problem</div>
-    <p class="reveal-text big-statement">Generative AI can fake a flawless product photo, a handwritten note, even a shipping label. The picture is no longer evidence.</p>
-    <p class="lead up">When buyers judge an item from a single image in seconds, AI-synthesized listings, stolen photos and re-shot screens are nearly impossible to tell apart. The question has shifted — from "does this look real?" to "when, where and how was this actually captured?"</p>
+    <div class="eyebrow up" data-ko="문제">The problem</div>
+    <p class="reveal-text big-statement" data-ko="생성형 AI는 상품 사진과 손글씨 메모, 배송장까지 만들 수 있습니다. 사진 한 장만으로 판단하기 어렵습니다.">Generative AI can fake a flawless product photo, a handwritten note, even a shipping label. The picture is no longer evidence.</p>
+    <p class="lead up" data-ko="AI로 만든 상품 이미지와 도용된 사진, 화면을 다시 찍은 사진은 겉모습만으로 구분하기 어렵습니다. 사진의 출처와 기록을 함께 확인해야 합니다.">When buyers judge an item from a single image in seconds, AI-synthesized listings, stolen photos and re-shot screens are nearly impossible to tell apart. The question has shifted from "does this look real?" to "when, where and how was this actually captured?"</p>
 
     <div class="stat-grid">
-      <div class="cell up"><div class="num">119,741</div><div class="lab">Direct-deal fraud cases in 2024 — the highest on record</div></div>
-      <div class="cell up"><div class="num">0.05<span class="u">%</span></div><div class="lab">What a ₩500 proof costs on a ₩1M deal</div></div>
-      <div class="cell up"><div class="num">210–640<span class="u">K</span></div><div class="lab">High-value repeat sellers in our beachhead market</div></div>
-      <div class="cell up"><div class="num">3 / 3</div><div class="lab">Top KR platforms now fighting AI images — by detection alone</div></div>
+      <div class="cell up"><div class="num">119,741</div><div class="lab" data-ko="2024년 직거래 사기 건수">Direct-deal fraud cases in 2024, the highest on record</div></div>
+      <div class="cell up"><div class="num">0.05<span class="u">%</span></div><div class="lab" data-ko="100만원 거래 대비 500원 기록 비용">What a ₩500 proof costs on a ₩1M deal</div></div>
+      <div class="cell up"><div class="num">210–640<span class="u">K</span></div><div class="lab" data-ko="초기 대상 시장의 고가 상품 반복 판매자">High-value repeat sellers in our beachhead market</div></div>
+      <div class="cell up"><div class="num">3 / 3</div><div class="lab" data-ko="AI 이미지 탐지에 대응하는 국내 주요 플랫폼">Top KR platforms now fighting AI images through detection alone</div></div>
     </div>
   </section>
 
   <!-- THE SHIFT -->
   <section id="solution" class="inner">
-    <div class="eyebrow up">The shift</div>
-    <p class="reveal-text big-statement">We move authentication from the person to the object — and from detecting the result to proving the process.</p>
+    <div class="eyebrow up" data-ko="접근 방식">The shift</div>
+    <p class="reveal-text big-statement" data-ko="원본을 보관하고, 지문을 비교하고, 타임스탬프를 확인합니다.">Keep the original. Check the fingerprint. Verify the timestamp.</p>
 
     <div class="shift">
       <div class="shift-card bad up">
-        <div class="tag">The old way · detection</div>
-        <h3>Guess if the photo is fake</h3>
-        <p>Platforms race to classify suspicious posts, chats and images. But detection is a probability game that AI keeps winning — and it can never promise "this object exists, right now."</p>
-        <div class="x"><span class="strike">Memo-note selfies</span> · <span class="strike">"send more photos"</span> · <span class="strike">ruler next to item</span> — all forgeable.</div>
+        <div class="tag" data-ko="기존 방식 · 이미지 탐지">The old way · detection</div>
+        <h3 data-ko="사진이 가짜인지 추정하기">Guess if the photo is fake</h3>
+        <p data-ko="플랫폼은 의심스러운 게시글·대화·이미지를 탐지합니다. 하지만 확률적인 탐지만으로 실물의 존재를 보장하기는 어렵습니다.">Platforms race to classify suspicious posts, chats and images. But detection is a probability game that AI keeps winning, and it can never promise "this object exists, right now."</p>
+        <div class="x" data-ko="손글씨 메모, 추가 사진, 크기 비교 사진에도 별도의 확인이 필요합니다."><span class="strike">Memo-note selfies</span> · <span class="strike">"send more photos"</span> · <span class="strike">ruler next to item</span>. All forgeable.</div>
       </div>
       <div class="shift-card good up">
-        <div class="tag">ProofShot · proof</div>
-        <h3>Prove the capture happened</h3>
-        <p>Instead of judging the output, we make evidence that can only exist when a real person photographs a real object, live, on random demand — leaving a record no pre-made image can satisfy.</p>
-        <div class="x">In-app capture · blockchain-anchored timestamp · original hash · multi-angle · random mission.</div>
+        <div class="tag" data-ko="ProofShot · 파일 기록">ProofShot · proof</div>
+        <h3 data-ko="파일의 기록 확인하기">Check the file's history</h3>
+        <p data-ko="파일 지문은 기록된 데이터의 변경을 알아냅니다. 확정된 Bitcoin 타임스탬프는 블록 시각 이전에 해당 데이터가 존재했다는 근거입니다. 사진 속 물건이나 촬영 방식까지 확인하는 것은 아닙니다.">A file fingerprint detects changes to the recorded bytes. A confirmed Bitcoin timestamp supports that those bytes existed before the block time. It does not tell us what is in the photo or how it was captured.</p>
+        <div class="x" data-ko="카메라 촬영 · 원본 저장 · SHA-256 · Bitcoin 타임스탬프. 다각도 촬영과 랜덤 미션은 개발 예정이며 현재 베타에는 없습니다.">Camera capture · original-file storage · SHA-256 · Bitcoin timestamps. Multi-angle and random missions are planned, not available in this beta.</div>
       </div>
     </div>
   </section>
 
   <!-- HOW IT WORKS -->
   <section class="inner">
-    <div class="eyebrow up">How it works</div>
-    <h2 class="up" style="font-size:clamp(28px,4vw,46px);font-weight:600">The seller shoots. The buyer checks a link.<br/>No new app, no new platform.</h2>
+    <div class="eyebrow up" data-ko="사용 방법">How it works</div>
+    <h2 class="up" style="font-size:clamp(28px,4vw,46px);font-weight:600" data-ko="사진을 기록하고, 링크로 확인합니다.&lt;br&gt;브라우저에서 바로 체험하세요.">Record a photo. Check it through a link.<br/>Try it directly in your browser.</h2>
     <div class="steps">
-      <div class="step up"><div class="idx"></div><h3>In-app live capture</h3><p>Only photos taken inside the app count. Gallery uploads are blocked, so stolen and re-used images can't enter.</p></div>
-      <div class="step up"><div class="idx"></div><h3>Capture record anchored</h3><p>A unique hash of the original file is sealed at the moment of capture and anchored into the Bitcoin blockchain via OpenTimestamps.</p></div>
-      <div class="step up"><div class="idx"></div><h3>Verification link generated</h3><p>A public page anyone can open — no install required — showing the proof behind the listing.</p></div>
-      <div class="step up"><div class="idx"></div><h3>Badge on the listing</h3><p>A copy-paste "Real-item verified" badge and link drop into any channel: Danggeun, Bunjang, Joonggonara, open chats, Instagram.</p></div>
-      <div class="step up"><div class="idx"></div><h3>Buyer confirms before paying</h3><p>One tap shows capture time, originality and verification status — turning doubt into a decision.</p></div>
+      <div class="step up"><div class="idx"></div><h3 data-ko="사진 촬영 또는 이미지 선택">Capture or choose a photo</h3><p data-ko="웹 데모에서 카메라로 촬영하거나 이미지를 선택하세요. 카메라 출처와 장면 자체는 별도로 인증되지 않습니다.">Use your browser camera or choose an image in the web demo. Camera source and the scene itself are not independently authenticated.</p></div>
+      <div class="step up"><div class="idx"></div><h3 data-ko="파일 지문의 타임스탬프 요청">Request a file timestamp</h3><p data-ko="웹 데모에서 만든 JPEG의 지문으로 타임스탬프를 요청합니다. 페이지를 떠나기 전에 JPEG를 다운로드하세요. Bitcoin 확정 여부는 별도로 확인합니다.">Request a timestamp for the JPEG created by the web demo. Download that JPEG before leaving the page. Bitcoin confirmation is checked separately.</p></div>
+      <div class="step up"><div class="idx"></div><h3 data-ko="검증 링크 만들기">Verification link generated</h3><p data-ko="원본 업로드를 선택하면 링크를 만듭니다. 링크를 가진 사람은 브라우저에서 사진과 타임스탬프를 확인할 수 있습니다.">Choose to upload the original and create a link. Anyone with the link can inspect the photo and timestamp in their browser.</p></div>
+      <div class="step up"><div class="idx"></div><h3 data-ko="판매글에 기록 링크 첨부">Badge on the listing</h3><p data-ko="판매글에 검증 링크를 첨부하세요. 검증 화면은 미확정 기록과 확인된 파일 타임스탬프를 구분합니다.">Share the verification link with the listing. Its page distinguishes an unchecked record from a confirmed file timestamp.</p></div>
+      <div class="step up"><div class="idx"></div><h3 data-ko="거래 전 구매자 확인">Buyer confirms before paying</h3><p data-ko="파일·타임스탬프 상태와 판매자·물건을 함께 확인하세요. 기기 시각은 인증되지 않았으며 이 기록은 결제를 보증하지 않습니다.">Check the file and timestamp status alongside the seller and item. The reported device time is unverified and a record is not a payment guarantee.</p></div>
     </div>
   </section>
 
   <!-- TECH FEATURES -->
   <section class="inner">
-    <div class="eyebrow up">Why fakes can't get in</div>
-    <p class="reveal-text big-statement" style="font-size:clamp(26px,4vw,46px)">We don't claim to catch every AI image. We raise the cost of forgery until it isn't worth it.</p>
+    <div class="eyebrow up" data-ko="파일 기록으로 확인할 수 있는 것">What a file record can tell you</div>
+    <p class="reveal-text big-statement" style="font-size:clamp(26px,4vw,46px)" data-ko="타임스탬프는 파일의 기록을 확인합니다. 사진 속 물건의 진위를 인증하지 않습니다.">A timestamp checks a file's history. It does not authenticate the object in the image.</p>
     <div class="feat-grid">
-      <div class="feat up"><div class="ic">⊙</div><h4>Live capture session</h4><p>Past and downloaded images can't be passed off as a fresh shot.</p></div>
-      <div class="feat up"><div class="ic">⊘</div><h4>Gallery upload blocked</h4><p>Removes stolen photos and recycled old shots at the source.</p></div>
-      <div class="feat up"><div class="ic">◷</div><h4>Blockchain anchoring</h4><p>Each capture hash is timestamped into Bitcoin via OpenTimestamps — provable by anyone, forever, without trusting us.</p></div>
-      <div class="feat up"><div class="ic">#</div><h4>Original file hash</h4><p>Any edit after capture becomes detectable. The proof is tamper-evident.</p></div>
-      <div class="feat up"><div class="ic">◫</div><h4>Multi-angle &amp; random mission</h4><p>Live, unpredictable prompts that pre-rendered AI images can't satisfy.</p></div>
-      <div class="feat up"><div class="ic">▣</div><h4>Privacy by design</h4><p>Only the listing photo you choose to seal is kept — to power the buyer's verify link. Nothing else leaves the device: no gallery access, no location, no personal data.</p></div>
+      <div class="feat up"><div class="ic">⊙</div><h4 data-ko="브라우저 카메라 촬영">Browser camera capture</h4><p data-ko="브라우저에서 카메라 프레임을 촬영합니다. 카메라 출처와 장면 자체는 별도로 인증되지 않습니다.">Capture a camera frame in your browser. Camera source and the scene itself are not independently authenticated.</p></div>
+      <div class="feat up"><div class="ic">▧</div><h4 data-ko="이미지로 체험하기">Try with an image</h4><p data-ko="이미지를 선택해 파일 지문과 타임스탬프 기록을 체험하세요. 검증에 필요한 JPEG 파일을 직접 다운로드할 수 있습니다.">Choose an image to try file fingerprints and timestamp records. Download the exact JPEG needed for later verification.</p></div>
+      <div class="feat up"><div class="ic">◷</div><h4 data-ko="블록체인 타임스탬프">Blockchain anchoring</h4><p data-ko="확정 후 갱신된 .ots 증명을 다운로드해 원본과 함께 보관하세요. 나중에 별도로 검증할 수 있습니다.">After confirmation, download the upgraded .ots proof and keep it with the original for later independent verification.</p></div>
+      <div class="feat up"><div class="ic">#</div><h4 data-ko="원본 파일 지문">Original file hash</h4><p data-ko="기록된 파일 데이터가 달라지면 지문도 바뀝니다. 사진이 같아 보여도 재압축하면 지문이 달라질 수 있습니다.">Changes to the recorded file bytes change its fingerprint. Recompression also changes the fingerprint, even if the photo looks the same.</p></div>
+      <div class="feat up"><div class="ic">◫</div><h4 data-ko="개발 예정: 다각도 촬영·미션">Planned: multiple angles &amp; missions</h4><p data-ko="추가 촬영 검증은 향후 기능입니다. 현재 베타는 단일 카메라 사진과 파일 타임스탬프를 지원합니다.">These capture checks are a future direction. The current beta supports a single camera photo and file timestamps.</p></div>
+      <div class="feat up"><div class="ic">▣</div><h4 data-ko="사진 보관과 공유">Privacy by design</h4><p data-ko="데모에서 만든 JPEG는 페이지를 열어둔 동안 브라우저 메모리에 보관합니다. 페이지를 떠나기 전에 다운로드하세요. 링크 생성 시 사진·기기 표시·보고된 시각을 업로드합니다. 공개 캘린더 서버에는 블라인드 처리된 지문만 전송합니다.">The demo JPEG stays in browser memory while this page is open. Download it before leaving. That action uploads the photo, device label and reported time. Public calendar servers receive only a blinded fingerprint.</p></div>
     </div>
   </section>
 
   <!-- MARKET -->
   <section id="market" class="inner">
-    <div class="eyebrow up">Go-to-market</div>
-    <p class="reveal-text big-statement">Not a marketplace. Infrastructure. We start narrow — where fraud anxiety and willingness to pay are highest.</p>
-    <p class="lead up">Like Stripe for payments and DocuSign for signatures, ProofShot embeds into the flows people already use. Like StockX and KREAM, an authenticated listing simply sells faster, and for more.</p>
+    <div class="eyebrow up" data-ko="시장 진입">Go-to-market</div>
+    <p class="reveal-text big-statement" data-ko="기존 거래에 파일 기록을 더하는 인프라를 지향합니다. 확인 수요가 높은 거래부터 시작합니다.">Not a marketplace. Infrastructure. We start where fraud anxiety and willingness to pay are highest.</p>
+    <p class="lead up" data-ko="사람들이 이미 사용하는 거래 흐름에 사진 기록을 연결하는 것이 목표입니다. 별도 마켓플레이스로 이동하지 않고 기록을 공유할 수 있습니다.">Like Stripe for payments and DocuSign for signatures, ProofShot embeds into the flows people already use. Like StockX and KREAM, an authenticated listing simply sells faster, and for more.</p>
     <div class="stat-grid">
-      <div class="cell up"><div class="num">₩43<span class="u">T</span></div><div class="lab">Korean secondhand market in 2025 — 10× growth in 17 years</div></div>
-      <div class="cell up"><div class="num">23.4<span class="u">M</span></div><div class="lab">De-duplicated users across the top 3 platforms</div></div>
-      <div class="cell up"><div class="num">Phones · Luxury</div><div class="lab">Beachhead: electronics, luxury &amp; sneakers, hobby gear</div></div>
-      <div class="cell up"><div class="num">API / SDK</div><div class="lab">Long term: platforms, resellers, rental, insurance</div></div>
+      <div class="cell up"><div class="num">₩43<span class="u">T</span></div><div class="lab" data-ko="2025년 국내 중고거래 시장 · 17년간 10배 성장">Korean secondhand market in 2025 · 10× growth in 17 years</div></div>
+      <div class="cell up"><div class="num">23.4<span class="u">M</span></div><div class="lab" data-ko="주요 3개 플랫폼의 중복 제거 사용자">De-duplicated users across the top 3 platforms</div></div>
+      <div class="cell up"><div class="num" data-ko="휴대폰 · 명품">Phones · Luxury</div><div class="lab" data-ko="초기 시장: 전자기기·명품·스니커즈·취미 용품">Beachhead: electronics, luxury &amp; sneakers, hobby gear</div></div>
+      <div class="cell up"><div class="num">API / SDK</div><div class="lab" data-ko="장기 방향: 플랫폼·리셀러·렌탈·보험">Long term: platforms, resellers, rental, insurance</div></div>
     </div>
   </section>
 
   <!-- PRICING -->
   <section id="pricing" class="inner">
-    <div class="eyebrow up">Business model</div>
-    <h2 class="up" style="font-size:clamp(28px,4vw,46px);font-weight:600">₩500 isn't the final price.<br/>It's how we prove willingness to pay.</h2>
+    <div class="eyebrow up" data-ko="요금 모델 구상">Business model</div>
+    <h2 class="up" style="font-size:clamp(28px,4vw,46px);font-weight:600" data-ko="500원은 확정된 가격이 아닙니다.&lt;br&gt;이용 수요를 확인하기 위한 요금 구상입니다.">₩500 isn't the final price.<br/>It's how we prove willingness to pay.</h2>
     <div class="price-grid">
       <div class="price up">
-        <div class="stage">Stage 1 · Per-proof</div>
-        <div class="amt">₩500<small> / extra proof</small></div>
-        <div class="desc">First proof free. Buyer verification always free, to spread fast.</div>
-        <ul><li>First authentication free</li><li>₩1,000+ for high-value items</li><li>Validates real payment intent</li></ul>
+        <div class="stage" data-ko="1단계 · 기록별 요금">Stage 1 · Per-proof</div>
+        <div class="amt">₩500<small data-ko=" / 추가 기록"> / extra proof</small></div>
+        <div class="desc" data-ko="첫 기록 무료, 구매자 확인 무료를 검토합니다. 현재 베타는 결제를 받지 않습니다.">Proposed pricing: first record and buyer checks free. This beta does not take payments.</div>
+        <ul><li data-ko="첫 기록 무료 구상">Proposed first record free</li><li data-ko="고가 상품 1,000원 이상 구상">₩1,000+ for high-value items</li><li data-ko="유료 이용 수요 확인">Validates real payment intent</li></ul>
       </div>
       <div class="price feat-on up">
-        <div class="badge-pop">Revenue engine</div>
-        <div class="stage">Stage 2 · Seller pass</div>
-        <div class="amt">₩2,900<small> – 9,900 / mo</small></div>
-        <div class="desc">For repeat sellers and small resellers who authenticate every listing.</div>
-        <ul><li>Unlimited monthly authentications</li><li>Verified badge on every listing</li><li>Stable, recurring revenue</li></ul>
+        <div class="badge-pop" data-ko="구독 모델 구상">Revenue engine</div>
+        <div class="stage" data-ko="2단계 · 판매자 구독">Stage 2 · Seller pass</div>
+        <div class="amt">₩2,900<small data-ko=" – 9,900 / 월"> – 9,900 / mo</small></div>
+        <div class="desc" data-ko="반복 판매자와 소규모 리셀러를 위한 구독 모델 구상입니다.">A proposed subscription for repeat sellers and small resellers.</div>
+        <ul><li data-ko="월간 기록 생성 구상">Planned monthly photo records</li><li data-ko="판매글에 기록 링크 첨부">Record link on each listing</li><li data-ko="지속적인 이용 모델">Stable, recurring revenue</li></ul>
       </div>
       <div class="price up">
-        <div class="stage">Stage 3 · B2B API</div>
-        <div class="amt">Custom</div>
-        <div class="desc">Embedded proof for platforms, resellers, rental and insurance.</div>
-        <ul><li>Bulk authentication via API / SDK</li><li>Cuts fraud &amp; CS cost</li><li>Infrastructure-scale revenue</li></ul>
+        <div class="stage" data-ko="3단계 · 기업용 API">Stage 3 · B2B API</div>
+        <div class="amt" data-ko="별도 협의">Custom</div>
+        <div class="desc" data-ko="플랫폼·리셀러·렌탈·보험 서비스 연동 구상입니다.">Planned integrations for platforms, resellers, rental and insurance.</div>
+        <ul><li data-ko="API / SDK 대량 연동 구상">Planned API / SDK access</li><li data-ko="분쟁 확인과 고객 지원에 활용">Cuts fraud &amp; CS cost</li><li data-ko="인프라 사업 모델">Infrastructure-scale revenue</li></ul>
       </div>
     </div>
   </section>
@@ -516,137 +512,137 @@
 
   <!-- LIVE DEMO -->
   <section id="demo" class="inner">
-    <div class="eyebrow up">Live demo</div>
-    <p class="reveal-text big-statement" style="font-size:clamp(28px,4.4vw,52px)">Create a proof in seconds. Hashed and sealed right in your browser.</p>
-    <p class="lead up">Shoot inside the app and the capture time, device and original SHA-256 hash are sealed — then the hash is anchored into the Bitcoin blockchain via OpenTimestamps, generating a verification link you can drop into any listing. No upload, no account; your photo stays on the device.</p>
-    <p class="lead up"><strong style="color:#fff">This demo is not a simulation.</strong> Every capture below runs the real anchoring pipeline — its hash is actually submitted to public OpenTimestamps calendar servers and committed to the Bitcoin blockchain, and the resulting .ots proof can be verified independently by anyone. Prefer the app experience? <a href="app.html" style="color:var(--accent);font-weight:600">Open the ProofShot app →</a></p>
+    <div class="eyebrow up" data-ko="실제 동작 데모">Live demo</div>
+    <p class="reveal-text big-statement" style="font-size:clamp(28px,4.4vw,52px)" data-ko="브라우저에서 사진의 파일 지문과 타임스탬프를 만드세요.">Record a photo fingerprint in your browser.</p>
+    <p class="lead up" data-ko="파일 지문은 브라우저에서 계산합니다. 검증 링크를 만들면 원본 사진·기기 표시·보고된 시각을 저장소에 업로드하며 링크를 가진 사람이 볼 수 있습니다. 원본과 .ots 파일도 다운로드해 보관하세요.">Hashing runs in your browser. Creating a verification link uploads the original photo, device label and reported time to the proof store, where anyone with the link can view them. Download the original and .ots file as a backup.</p>
+    <p class="lead up" data-ko="실제 타임스탬프 요청을 보냅니다. 공개 캘린더에는 블라인드 처리된 지문만 전달합니다. Bitcoin 확정에는 시간이 걸리며 조회가 실패할 수 있습니다. 요청을 보냈다는 사실만으로 검증 완료가 되지는 않습니다."><strong style="color:#fff">This demo sends a real timestamp request.</strong> Only a blinded fingerprint goes to public calendar servers. Bitcoin confirmation takes time and may be unavailable; a request is not a verified timestamp.</p>
     <div class="demo-grid up">
       <!-- Capture panel -->
       <div class="demo-panel">
-        <span class="panel-tag"><i>1</i> Capture</span>
+        <span class="panel-tag" data-ko="&lt;i&gt;1&lt;/i&gt; 촬영"><i>1</i> Capture</span>
         <div class="stage" id="stage">
           <div class="live-flag"><i></i> Live capture</div>
           <video id="video" playsinline muted></video>
           <canvas id="canvas"></canvas>
-          <div class="placeholder" id="stagePlaceholder">
+          <div class="placeholder" id="stagePlaceholder" data-ko="카메라로 촬영하거나 이미지를 선택해 파일 기록을 체험하세요.">
             <div class="glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5a2 2 0 0 1 2-2h1.6l1.1-2h6.6l1.1 2H19a2 2 0 0 1 2 2V18a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9.5Z"/><circle cx="12" cy="13" r="3.4"/></svg></div>
             Shoot live with your camera, or load an image to try the proof flow.
           </div>
         </div>
         <div class="demo-controls">
-          <button class="btn btn-accent" id="btnCamera">Turn on camera</button>
-          <button class="btn btn-accent" id="btnShoot" hidden>Shoot</button>
-          <button class="btn" id="btnRetake" hidden>Retake</button>
-          <button class="btn" id="btnUpload">Load image</button>
+          <button class="btn btn-accent" id="btnCamera" data-ko="카메라 켜기">Turn on camera</button>
+          <button class="btn btn-accent" id="btnShoot" hidden data-ko="촬영">Shoot</button>
+          <button class="btn" id="btnRetake" hidden data-ko="다시 촬영">Retake</button>
+          <button class="btn" id="btnUpload" data-ko="이미지 선택">Load image</button>
           <input type="file" id="fileInput" accept="image/*" hidden>
         </div>
-        <p class="demo-note">No camera? Use “Load image” to try it — <strong style="color:#b9bcc2">“Load image” exists in this demo only. In the actual ProofShot service, gallery uploads are blocked and only live in-app capture is accepted.</strong> Hashing and sealing run entirely inside your browser. The sealed listing photo is stored in the proof store so buyers can re-verify the original through a short link — and only a blinded 32-byte commitment is sent to public OpenTimestamps calendar servers for Bitcoin anchoring.</p>
+        <p class="demo-note" data-ko="카메라 사진이나 선택한 이미지로 체험할 수 있습니다. 데모에서 만든 JPEG 파일 자체가 검증 대상이므로 페이지를 떠나기 전에 저장하세요. 링크 생성 시 이 파일을 업로드합니다.">The demo accepts a camera photo or a loaded image. It creates a JPEG copy, and that exact copy is the file you must keep for verification. Save it before leaving this page. Creating a link uploads this copy.</p>
       </div>
 
       <!-- Result panel -->
       <div class="demo-panel">
-        <span class="panel-tag"><i>2</i> Proof</span>
+        <span class="panel-tag" data-ko="&lt;i&gt;2&lt;/i&gt; 파일 기록"><i>2</i> Proof</span>
 
-        <div class="result-empty" id="resultEmpty">Shoot to generate<br>a certificate here.</div>
+        <div class="result-empty" id="resultEmpty" data-ko="사진을 촬영하거나 선택하면&lt;br&gt;파일 기록이 표시됩니다.">Shoot to generate<br>a certificate here.</div>
 
         <div class="result-card" id="resultCard">
           <div class="rc-head">
             <div class="cert-brand">
               <img class="mark" src="assets/vt-mark.png" alt="Valuation Technology">
-              <span><b>ProofShot certificate</b></span>
+              <span><b data-ko="사진 기록">Photo record</b></span>
             </div>
-            <span class="badge-ok">Verified</span>
+            <span class="badge-ok" data-ko="파일 기록">File record</span>
           </div>
           <div class="rc-photo"><img id="rcPhoto" alt="Captured photo"></div>
           <div class="rc-rows">
-            <div class="rc-row"><span class="k">Capture time</span><span class="v" id="rcTime">—</span></div>
-            <div class="rc-row"><span class="k">Device</span><span class="v" id="rcDevice">—</span></div>
-            <div class="rc-row"><span class="k">Original hash · SHA-256</span><span class="v mono" id="rcHash">—</span></div>
-            <div class="rc-row"><span class="k">Blockchain anchor · Bitcoin</span><span class="v" id="rcAnchor" style="font-size:13px">—</span></div>
+            <div class="rc-row"><span class="k" data-ko="기기에서 보고한 시각 (미인증)">Reported time (unverified)</span><span class="v" id="rcTime">-</span></div>
+            <div class="rc-row"><span class="k" data-ko="기기 표시 (미인증)">Device label (unverified)</span><span class="v" id="rcDevice">-</span></div>
+            <div class="rc-row"><span class="k" data-ko="원본 파일 지문 · SHA-256">Original hash · SHA-256</span><span class="v mono" id="rcHash">-</span></div>
+            <div class="rc-row"><span class="k" data-ko="블록체인 타임스탬프 · Bitcoin">Blockchain anchor · Bitcoin</span><span class="v" role="status" aria-live="polite" id="rcAnchor" style="font-size:13px">-</span></div>
           </div>
-          <div class="rc-actions">
-            <button class="btn btn-accent" id="btnMakeLink">Generate verify link →</button>
-            <button class="btn" id="btnCopy" hidden>Copy</button>
-            <a class="btn" id="btnOpen" target="_blank" rel="noopener" hidden>Open buyer view →</a>
-            <button class="btn" id="btnOts" hidden>⬇ .ots proof</button>
+          <div class="rc-actions"><button class="btn" id="btnSaveOriginal" data-ko="원본 JPEG 저장">Save original JPEG</button><button class="btn" id="btnDemoCheck" data-ko="타임스탬프 확인">Check timestamp</button>
+            <button class="btn btn-accent" id="btnMakeLink" data-ko="사진 업로드 후 링크 만들기 →">Generate verify link →</button>
+            <button class="btn" id="btnCopy" hidden data-ko="복사">Copy</button>
+            <a class="btn" id="btnOpen" target="_blank" rel="noopener" hidden data-ko="구매자 화면 열기 →">Open buyer view →</a>
+            <button class="btn" id="btnOts" hidden data-ko="⬇ .ots 증명">⬇ .ots proof</button>
           </div>
-          <div class="rc-link" id="rcLink"></div>
+          <p class="demo-error" id="demoError" role="status" aria-live="polite" hidden></p><div class="rc-link" id="rcLink"></div>
         </div>
       </div>
     </div>
-    <div class="demo-flow up"><b>Shoot</b><span class="ar">&rarr;</span><b>Record originality</b><span class="ar">&rarr;</span><b>Verification link</b><span class="ar">&rarr;</span><b>Buyer confirms before paying</b></div>
+    <div class="demo-flow up"><b data-ko="촬영">Shoot</b><span class="ar">&rarr;</span><b data-ko="파일 지문 기록">Record originality</b><span class="ar">&rarr;</span><b data-ko="검증 링크">Verification link</b><span class="ar">&rarr;</span><b data-ko="거래 전 구매자 확인">Buyer confirms before paying</b></div>
   </section>
 
   <!-- VERIFIED ITEMS -->
   <section id="verified" class="inner">
-    <div class="eyebrow up">Verified items</div>
-    <p class="reveal-text big-statement" style="font-size:clamp(28px,4.4vw,52px)">Real high-value deals, really verified.</p>
-    <p class="lead up">A selection of actual items from completed transactions — each authenticated through ProofShot before the deal closed.</p>
+    <div class="eyebrow up" data-ko="사진 예시">Item gallery</div>
+    <p class="reveal-text big-statement" style="font-size:clamp(28px,4.4vw,52px)" data-ko="상품 사진 예시.">Selected listing photos.</p>
+    <p class="lead up" data-ko="기존 사이트에 포함된 상품 사진입니다. 개별 증명 링크가 연결되어 있지 않으므로 검증 완료 기록이 아닌 예시로 표시합니다.">Images from the original site archive. No independent proof links are attached to this gallery, so these are examples rather than verified records.</p>
     <div class="vi-grid">
       <figure class="vi up"><img src="assets/items/dior-wallet.jpg" alt="Dior Saddle wallet">
-        <span class="vbadge"><span class="c">✓</span>Verified</span>
+        <span class="vbadge" data-ko="사진 예시"><span class="c">·</span>Example</span>
         <div class="ov"><span class="vi-name">Dior</span><span class="vi-cat">Saddle wallet</span></div></figure>
       <figure class="vi up"><img src="assets/items/hermes-white.jpg" alt="Hermès Clic H bracelet">
-        <span class="vbadge"><span class="c">✓</span>Verified</span>
+        <span class="vbadge" data-ko="사진 예시"><span class="c">·</span>Example</span>
         <div class="ov"><span class="vi-name">Hermès</span><span class="vi-cat">Clic H bracelet</span></div></figure>
       <figure class="vi up"><img src="assets/items/montblanc.jpg" alt="Montblanc Meisterstück card holder">
-        <span class="vbadge"><span class="c">✓</span>Verified</span>
+        <span class="vbadge" data-ko="사진 예시"><span class="c">·</span>Example</span>
         <div class="ov"><span class="vi-name">Montblanc</span><span class="vi-cat">Meisterstück card holder</span></div></figure>
       <figure class="vi up"><img src="assets/items/hermes-black.jpg" alt="Hermès Clic H bracelet">
-        <span class="vbadge"><span class="c">✓</span>Verified</span>
+        <span class="vbadge" data-ko="사진 예시"><span class="c">·</span>Example</span>
         <div class="ov"><span class="vi-name">Hermès</span><span class="vi-cat">Clic H bracelet</span></div></figure>
       <figure class="vi up"><img src="assets/items/cartier.jpg" alt="Cartier Fine jewelry">
-        <span class="vbadge"><span class="c">✓</span>Verified</span>
+        <span class="vbadge" data-ko="사진 예시"><span class="c">·</span>Example</span>
         <div class="ov"><span class="vi-name">Cartier</span><span class="vi-cat">Fine jewelry</span></div></figure>
       <figure class="vi up"><img src="assets/items/tb-cardigan.jpg" alt="Thom Browne 4-Bar cardigan">
-        <span class="vbadge"><span class="c">✓</span>Verified</span>
+        <span class="vbadge" data-ko="사진 예시"><span class="c">·</span>Example</span>
         <div class="ov"><span class="vi-name">Thom Browne</span><span class="vi-cat">4-Bar cardigan</span></div></figure>
       <figure class="vi up"><img src="assets/items/tb-jacket.jpg" alt="Thom Browne Zip-up jacket">
-        <span class="vbadge"><span class="c">✓</span>Verified</span>
+        <span class="vbadge" data-ko="사진 예시"><span class="c">·</span>Example</span>
         <div class="ov"><span class="vi-name">Thom Browne</span><span class="vi-cat">Zip-up jacket</span></div></figure>
       <figure class="vi up"><img src="assets/items/tb-knit.jpg" alt="Thom Browne 4-Bar knit">
-        <span class="vbadge"><span class="c">✓</span>Verified</span>
+        <span class="vbadge" data-ko="사진 예시"><span class="c">·</span>Example</span>
         <div class="ov"><span class="vi-name">Thom Browne</span><span class="vi-cat">4-Bar knit</span></div></figure>
       <figure class="vi up"><img src="assets/items/tb-windbreaker.jpg" alt="Thom Browne Hooded jacket">
-        <span class="vbadge"><span class="c">✓</span>Verified</span>
+        <span class="vbadge" data-ko="사진 예시"><span class="c">·</span>Example</span>
         <div class="ov"><span class="vi-name">Thom Browne</span><span class="vi-cat">Hooded jacket</span></div></figure>
     </div>
-    <p class="vi-note up">Items shown are from real, completed peer-to-peer transactions verified with ProofShot.</p>
+    <p class="vi-note up" data-ko="갤러리 사진은 물건의 진위나 거래의 검증 완료를 보증하지 않습니다.">Gallery photos do not certify an item's authenticity or establish a verified transaction.</p>
   </section>
 
   <!-- TEAM -->
   <section id="team" class="inner">
-    <div class="eyebrow up">The team</div>
+    <div class="eyebrow up" data-ko="팀 소개">The team</div>
     <img class="vt-team-logo up" src="assets/vt-logo-white.png" alt="Valuation Technology">
-    <p class="reveal-text big-statement" style="font-size:clamp(28px,4.4vw,52px)">A team making trust easier to prove in online trade.</p>
-    <p class="lead up">Starting with ProofShot, Valuation Technology is building trust infrastructure for any transaction that relies on photo-based proof.</p>
+    <p class="reveal-text big-statement" style="font-size:clamp(28px,4.4vw,52px)" data-ko="온라인 거래에서 기록을 더 쉽게 확인할 수 있도록 만듭니다.">A team making trust easier to prove in online trade.</p>
+    <p class="lead up" data-ko="Valuation Technology는 ProofShot을 시작으로 사진 기록을 활용하는 거래 인프라를 만들어갑니다.">Starting with ProofShot, Valuation Technology is building trust infrastructure for any transaction that relies on photo-based proof.</p>
     <div class="team-lead up">
       <img src="assets/team/jung.jpg" alt="Hoyoon Jung, CEO">
       <div>
-        <span class="role">CEO · Founder</span>
+        <span class="role" data-ko="대표 · 창업자">CEO · Founder</span>
         <h3>Hoyoon Jung</h3>
-        <p class="sub">Business strategy · market validation · service design</p>
+        <p class="sub" data-ko="사업 전략 · 시장 검증 · 서비스 설계">Business strategy · market validation · service design</p>
         <ul>
-          <li>Finance &amp; Economics, Mokwon University</li>
-          <li>Award winner at a national investment competition</li>
-          <li>Planned &amp; designed <strong>Gomhanjan</strong>, a cozy-café discovery app</li>
+          <li data-ko="목원대학교 금융경제 전공">Finance &amp; Economics, Mokwon University</li>
+          <li data-ko="전국 투자 대회 수상">Award winner at a national investment competition</li>
+          <li data-ko="카페 탐색 앱 곰한잔 기획·설계">Planned &amp; designed <strong>Gomhanjan</strong>, a cozy-café discovery app</li>
         </ul>
-        <p class="desc">Combining financial thinking with service design to solve the trust problem in secondhand trade through technology.</p>
+        <p class="desc" data-ko="금융적 사고와 서비스 설계를 결합해 중고거래에서 기록을 확인하는 경험을 개선합니다.">Combining financial thinking with service design to solve the trust problem in secondhand trade through technology.</p>
       </div>
     </div>
     <div class="team-grid">
       <div class="team-member up" style="grid-column:1/-1"><img src="assets/team/kang.jpg" alt="Eunghyun Kang">
-        <div><span class="role">Finance &amp; Operations</span><h4>Eunghyun Kang</h4><p>Finance · market analysis · operations design</p></div></div>
+        <div><span class="role" data-ko="재무 · 운영">Finance &amp; Operations</span><h4>Eunghyun Kang</h4><p data-ko="재무 · 시장 분석 · 운영 설계">Finance · market analysis · operations design</p></div></div>
     </div>
   </section>
 
   <!-- VISION -->
   <section class="vision inner" id="contact">
-    <div class="verified-badge up"><span class="chk">✓</span>Real-item verified</div>
-    <p class="reveal-text">Photos can be faked.<br/>Proof cannot.</p>
+    <div class="verified-badge up" data-ko="파일 기록을 확인하세요."><span class="chk">✓</span>Check the file record</div>
+    <p class="reveal-text" data-ko="원본을 보관하세요.&lt;br&gt;기록을 확인하세요.">Keep the original.<br/>Check the record.</p>
     <div class="hero-cta up" style="justify-content:center;margin-top:50px">
-      <a href="mailto:jung12hjung@gmail.com" class="btn btn-accent">Get early access</a>
-      <a href="#top" class="btn">Back to top</a>
+      <a href="mailto:jung12hjung@gmail.com" class="btn btn-accent" data-ko="사전 이용 문의">Get early access</a>
+      <a href="#top" class="btn" data-ko="맨 위로">Back to top</a>
     </div>
   </section>
 
@@ -656,25 +652,25 @@
   <div class="foot-inner">
     <div>
       <img class="foot-logo" src="assets/vt-logo-white.png" alt="Valuation Technology">
-      <p class="foot-tag">ProofShot is a product of Valuation Technology — real-item authentication infrastructure for the AI era of secondhand trade. We don't make photos; we make proof.</p>
+      <p class="foot-tag" data-ko="ProofShot은 Valuation Technology의 사진 지문·타임스탬프 기록 서비스입니다. 실물 진위나 거래를 보증하지 않습니다.">ProofShot is a Valuation Technology product for photo fingerprints and timestamps. It does not authenticate items or guarantee transactions.</p>
     </div>
     <div class="foot-cols">
       <div class="foot-col">
-        <h5>Product</h5>
-        <a href="#solution">How it works</a>
-        <a href="#problem">The problem</a>
-        <a href="#pricing">Pricing</a>
+        <h5 data-ko="제품">Product</h5>
+        <a href="#solution" data-ko="사용 방법">How it works</a>
+        <a href="#problem" data-ko="문제">The problem</a>
+        <a href="#pricing" data-ko="요금">Pricing</a>
       </div>
       <div class="foot-col">
-        <h5>Company</h5>
-        <a href="#market">Market</a>
-        <a href="#contact">Get verified</a>
-        <a href="mailto:jung12hjung@gmail.com">Contact</a>
+        <h5 data-ko="회사">Company</h5>
+        <a href="#market" data-ko="시장">Market</a>
+        <a href="#contact" data-ko="이용 문의">Get verified</a>
+        <a href="mailto:jung12hjung@gmail.com" data-ko="연락처">Contact</a>
       </div>
       <div class="foot-col">
-        <h5>For business</h5>
+        <h5 data-ko="기업 고객">For business</h5>
         <a href="#pricing">API / SDK</a>
-        <a href="#contact">Partnerships</a>
+        <a href="#contact" data-ko="파트너십">Partnerships</a>
       </div>
     </div>
   </div>
@@ -684,64 +680,18 @@
   </div>
 </footer>
 
-<!-- mobile app install bar -->
-<div class="install-bar" id="installBar">
-  <div class="main">
-    <img src="icons/icon-192.png" alt="ProofShot app icon">
-    <span class="tx"><b>Get the ProofShot app</b><span>Camera-only proof, right on your home screen</span></span>
-    <button class="go" id="installGo">Install</button>
-    <button class="x" id="installX" aria-label="Dismiss">✕</button>
-  </div>
-  <div class="ios-steps" id="iosSteps" hidden>
-    On iPhone: tap <span class="shr">⬆</span> <b>Share</b> in Safari, then <b>“Add to Home Screen”</b>. ProofShot installs with full-screen camera — no App Store needed.
-  </div>
-</div>
-
 <script src="config.js"></script>
 <script src="ots.js"></script>
+<script src="proof.js"></script>
 <script>
-/* ====================== APP INSTALL (nav button + mobile bar) ====================== */
-(function(){
-  "use strict";
-  var bar=document.getElementById("installBar");
-  var navBtn=document.getElementById("navDownloadApp");
-  var isStandalone=(window.matchMedia&&window.matchMedia("(display-mode: standalone)").matches)||window.navigator.standalone===true;
-  var isIOS=/iPhone|iPad|iPod/.test(navigator.userAgent)||(/Macintosh/.test(navigator.userAgent)&&navigator.maxTouchPoints>1);
-  var deferred=null;
-  window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();deferred=e;});
-
-  /* returns true when install was handled here; false → caller falls back to app.html */
-  function triggerInstall(){
-    if(deferred){ /* Android / Chromium: native install dialog */
-      deferred.prompt();
-      deferred.userChoice.finally(function(){deferred=null;dismiss();});
-      return true;
-    }
-    if(isIOS&&bar){ /* iOS: no programmatic prompt — surface the steps */
-      bar.classList.add("on");
-      var s=document.getElementById("iosSteps");if(s)s.hidden=false;
-      return true;
-    }
-    return false;
-  }
-
-  if(navBtn&&!isStandalone){
-    navBtn.addEventListener("click",function(e){
-      if(triggerInstall())e.preventDefault(); /* otherwise the anchor opens app.html */
-    });
-  }
-
-  if(bar&&!isStandalone&&sessionStorage.getItem("psInstallBarHidden")!=="1"){
-    bar.classList.add("on");
-  }
-  document.getElementById("installGo").addEventListener("click",function(){
-    if(!triggerInstall())location.href="app.html";
-  });
-  document.getElementById("installX").addEventListener("click",dismiss);
-  function dismiss(){sessionStorage.setItem("psInstallBarHidden","1");bar.classList.remove("on");}
-})();
-
+/* Accessible navigation on intermediate and small viewports. */
+const navToggle=document.getElementById('navToggle'),navLinks=document.getElementById('navLinks');
+function closeNav(){navLinks.classList.remove('is-open');navToggle.setAttribute('aria-expanded','false');}
+navToggle.addEventListener('click',()=>{const open=navToggle.getAttribute('aria-expanded')!=='true';navToggle.setAttribute('aria-expanded',String(open));navLinks.classList.toggle('is-open',open);});
+navLinks.addEventListener('click',e=>{if(e.target.closest('a'))closeNav();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&navToggle.getAttribute('aria-expanded')==='true'){closeNav();navToggle.focus();}});
 /* ====================== NAV + PROGRESS ====================== */
+if(PS.lang==='ko')document.title='ProofShot | 사진 원본과 타임스탬프 기록';
 const nav=document.getElementById('nav');
 const prog=document.getElementById('progress');
 function onScrollUI(){
@@ -792,7 +742,7 @@ function lightWords(){
     if(t>=1){w.style.color='';w.classList.add('on');}
     else{
       w.classList.remove('on');
-      const v=Math.round(42+(255-42)*t); // 42 = dim grey -> 255 white
+      const v=Math.round(160+(255-160)*t); // 42 = dim grey -> 255 white
       w.style.color=`rgb(${v},${v},${v})`;
     }
   }
@@ -804,7 +754,7 @@ function heroGlow(){
   if(!heroLite)return;
   const r=heroLite.getBoundingClientRect();
   const t=1-Math.min(Math.max(r.top/window.innerHeight,0),1);
-  const v=Math.round(42+(255-42)*Math.min(t*1.6,1));
+  const v=Math.round(160+(255-160)*Math.min(t*1.6,1));
   heroLite.style.color=`rgb(${v},${v},${v})`;
 }
 
@@ -908,7 +858,7 @@ function draw(now){
     ctx.beginPath();ctx.arc(d.x,d.y,rr,0,6.283);ctx.fill();
   }
   ctx.shadowBlur=0;
-  requestAnimationFrame(draw);
+  if(!matchMedia('(prefers-reduced-motion: reduce)').matches)requestAnimationFrame(draw);
 }
 build();requestAnimationFrame(draw);
 let rt;window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(build,180);});
@@ -918,208 +868,7 @@ if(matchMedia('(prefers-reduced-motion: reduce)').matches){
   document.querySelectorAll('.marquee-track').forEach(t=>t.style.animation='none');
 }
 
-/* ====================== LIVE DEMO ======================
-   Capture -> SHA-256 -> certificate -> shareable verify link.
-   All photo processing happens locally in the browser. Nothing is uploaded. */
-(function(){
-  "use strict";
-  function $(s){return document.querySelector(s);}
-  function show(el){if(el)el.hidden=false;}
-  function hide(el){if(el)el.hidden=true;}
-
-  var stage=$("#stage");
-  if(!stage)return;
-
-  var video=$("#video"),canvas=$("#canvas"),placeholder=$("#stagePlaceholder"),fileInput=$("#fileInput");
-  var btnCamera=$("#btnCamera"),btnShoot=$("#btnShoot"),btnRetake=$("#btnRetake"),btnUpload=$("#btnUpload");
-  var resultEmpty=$("#resultEmpty"),resultCard=$("#resultCard"),rcPhoto=$("#rcPhoto"),rcTime=$("#rcTime"),rcDevice=$("#rcDevice"),rcHash=$("#rcHash"),rcAnchor=$("#rcAnchor");
-  var btnMakeLink=$("#btnMakeLink"),btnCopy=$("#btnCopy"),btnOpen=$("#btnOpen"),btnOts=$("#btnOts"),rcLink=$("#rcLink");
-
-  var stream=null,current=null,stampPromise=null;
-
-  btnCamera.addEventListener("click",function(){
-    if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){
-      alert("This browser can't use the camera. Try “Load image” instead.");return;
-    }
-    navigator.mediaDevices.getUserMedia({video:{facingMode:"environment"},audio:false}).then(function(s){
-      stream=s;video.srcObject=s;video.play();
-      stage.classList.add("is-live");stage.classList.remove("is-shot");
-      hide(placeholder);hide(btnCamera);show(btnShoot);hide(btnRetake);
-    }).catch(function(){
-      alert("Camera access was denied. Allow permission or use “Load image” instead.");
-    });
-  });
-
-  btnShoot.addEventListener("click",function(){
-    var w=video.videoWidth||1280,h=video.videoHeight||960;
-    canvas.width=w;canvas.height=h;
-    canvas.getContext("2d").drawImage(video,0,0,w,h);
-    stopStream();
-    stage.classList.remove("is-live");stage.classList.add("is-shot");
-    hide(btnShoot);show(btnRetake);
-    processCanvas();
-  });
-
-  btnRetake.addEventListener("click",function(){
-    stage.classList.remove("is-shot");resetResult();btnCamera.click();
-  });
-
-  btnUpload.addEventListener("click",function(){fileInput.click();});
-  fileInput.addEventListener("change",function(e){
-    var file=e.target.files&&e.target.files[0];if(!file)return;
-    var img=new Image();
-    img.onload=function(){
-      var w=img.naturalWidth,h=img.naturalHeight;
-      canvas.width=w;canvas.height=h;
-      canvas.getContext("2d").drawImage(img,0,0,w,h);
-      stopStream();
-      stage.classList.remove("is-live");stage.classList.add("is-shot");
-      hide(placeholder);hide(btnShoot);hide(btnCamera);show(btnRetake);
-      processCanvas();
-    };
-    img.src=URL.createObjectURL(file);
-  });
-
-  function processCanvas(){
-    var fullUrl=canvas.toDataURL("image/jpeg",0.92);
-    var thumb=makeThumb(canvas,460);
-    paintStill(thumb);
-    computeHash(fullUrl).then(function(hash){
-      var now=new Date();
-      current={dataUrl:thumb,hash:hash,time:formatTime(now),iso:now.toISOString(),device:detectDevice(),ots:null};
-      rcPhoto.src=thumb;
-      rcTime.textContent=current.time;
-      rcDevice.textContent=current.device;
-      rcHash.textContent=formatHash(hash);
-      resultEmpty.style.display="none";
-      resultCard.classList.add("show");
-      rcLink.classList.remove("show");rcLink.textContent="";
-      hide(btnCopy);hide(btnOpen);hide(btnOts);show(btnMakeLink);
-      anchorHash(current);
-    });
-  }
-
-  /* Anchor the capture hash into Bitcoin via OpenTimestamps. */
-  function anchorHash(cap){
-    if(!window.PSOTS||!window.crypto||!window.crypto.subtle){
-      rcAnchor.textContent="Unavailable in this browser";
-      stampPromise=Promise.resolve(null);
-      return;
-    }
-    rcAnchor.textContent="Anchoring to Bitcoin…";
-    stampPromise=PSOTS.stamp(PSOTS.unhex(cap.hash)).then(function(res){
-      if(current!==cap)return null;
-      cap.ots=res.ots;
-      rcAnchor.innerHTML="✓ Submitted to "+res.calendars.length+" OpenTimestamps calendar"+(res.calendars.length>1?"s":"")+" · Bitcoin confirmation in ~1–6 h";
-      rcAnchor.style.color="var(--accent)";
-      show(btnOts);
-      return res;
-    }).catch(function(){
-      if(current===cap)rcAnchor.textContent="Not anchored — calendar servers unreachable";
-      return null;
-    });
-  }
-
-  btnOts.addEventListener("click",function(){
-    if(!current||!current.ots)return;
-    var blob=new Blob([current.ots],{type:"application/vnd.opentimestamps.v1"});
-    var a=document.createElement("a");
-    a.href=URL.createObjectURL(blob);
-    a.download="proofshot-"+current.hash.slice(0,8)+".ots";
-    document.body.appendChild(a);a.click();document.body.removeChild(a);
-    setTimeout(function(){URL.revokeObjectURL(a.href);},4000);
-  });
-
-  function paintStill(dataUrl){
-    var still=stage.querySelector("img.shot");
-    if(!still){still=document.createElement("img");still.className="shot";still.alt="Captured photo";stage.appendChild(still);}
-    still.src=dataUrl;
-  }
-
-  btnMakeLink.addEventListener("click",function(){
-    if(!current)return;
-    var cap=current;
-    btnMakeLink.disabled=true;btnMakeLink.textContent="Sealing proof…";
-    Promise.resolve(stampPromise).then(function(){
-      if(current!==cap)return Promise.reject("stale");
-      /* proof store first: short link + the buyer's browser re-hashes the real original */
-      var body={v:3,iso:cap.iso,d:cap.device,h:cap.hash,img:cap.fullUrl};
-      if(cap.ots)body.ots=PSOTS.b64urlBytes(cap.ots);
-      return fetch((window.PS_API||"")+"/p",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body)})
-        .then(function(r){if(!r.ok)throw new Error("store "+r.status);return r.json();})
-        .then(function(j){return new URL("verify.html",location.href).href+"?p="+j.id;});
-    }).catch(function(){
-      if(current!==cap)return null;
-      /* fallback: legacy self-contained fragment link (thumb only) */
-      var payload={v:2,t:cap.time,iso:cap.iso,d:cap.device,h:cap.hash,img:cap.dataUrl};
-      if(cap.ots)payload.ots=PSOTS.b64urlBytes(cap.ots);
-      return new URL("verify.html",location.href).href+"#"+b64urlEncode(JSON.stringify(payload));
-    }).then(function(url){
-      btnMakeLink.disabled=false;btnMakeLink.textContent="Generate verify link →";
-      if(current!==cap||!url)return;
-      rcLink.textContent=url;rcLink.classList.add("show");
-      btnOpen.href=url;hide(btnMakeLink);show(btnCopy);show(btnOpen);
-    });
-  });
-
-  btnCopy.addEventListener("click",function(){
-    var text=rcLink.textContent;
-    var done=function(){var old=btnCopy.textContent;btnCopy.textContent="Copied ✓";setTimeout(function(){btnCopy.textContent=old;},1600);};
-    if(navigator.clipboard&&navigator.clipboard.writeText){
-      navigator.clipboard.writeText(text).then(done,function(){legacyCopy(text);done();});
-    }else{legacyCopy(text);done();}
-  });
-
-  function resetResult(){
-    current=null;stampPromise=null;
-    resultCard.classList.remove("show");resultEmpty.style.display="";
-    rcAnchor.textContent="—";rcAnchor.style.color="";hide(btnOts);
-  }
-  function stopStream(){if(stream){stream.getTracks().forEach(function(t){t.stop();});stream=null;}}
-
-  function makeThumb(srcCanvas,maxW){
-    var w=srcCanvas.width,h=srcCanvas.height;
-    if(w<=maxW)return srcCanvas.toDataURL("image/jpeg",0.7);
-    var ratio=maxW/w,c=document.createElement("canvas");
-    c.width=Math.round(w*ratio);c.height=Math.round(h*ratio);
-    c.getContext("2d").drawImage(srcCanvas,0,0,c.width,c.height);
-    return c.toDataURL("image/jpeg",0.62);
-  }
-  function computeHash(dataUrl){
-    var bin=atob(dataUrl.split(",")[1]),bytes=new Uint8Array(bin.length);
-    for(var i=0;i<bin.length;i++)bytes[i]=bin.charCodeAt(i);
-    if(window.crypto&&window.crypto.subtle){
-      return window.crypto.subtle.digest("SHA-256",bytes).then(function(buf){return hex(new Uint8Array(buf));});
-    }
-    return Promise.resolve(fallbackHash(bytes));
-  }
-  function hex(bytes){var s="";for(var i=0;i<bytes.length;i++)s+=bytes[i].toString(16).padStart(2,"0");return s;}
-  function fallbackHash(bytes){
-    var h1=0x811c9dc5;
-    for(var i=0;i<bytes.length;i++){h1^=bytes[i];h1=(h1+((h1<<1)+(h1<<4)+(h1<<7)+(h1<<8)+(h1<<24)))>>>0;}
-    return ("00000000"+h1.toString(16)).slice(-8).repeat(8);
-  }
-  function formatHash(h){return h.slice(0,4)+"·"+h.slice(4,8)+"·"+h.slice(8,12)+"·"+h.slice(12,16)+"…";}
-  function formatTime(d){
-    try{
-      return new Intl.DateTimeFormat("en-US",{year:"numeric",month:"short",day:"numeric",hour:"2-digit",minute:"2-digit",hour12:true,timeZoneName:"short"}).format(d);
-    }catch(e){return d.toISOString();}
-  }
-  function detectDevice(){
-    var ua=navigator.userAgent;
-    if(/iPhone/.test(ua))return "iPhone";
-    if(/iPad/.test(ua))return "iPad";
-    if(/Android/.test(ua)){var m=ua.match(/Android.*?;\s([^;)]+?)(?:\sBuild|;|\))/);return (m&&m[1]?m[1].trim():"Android device");}
-    if(/Macintosh/.test(ua))return "Mac";
-    if(/Windows/.test(ua))return "Windows PC";
-    return "Web browser";
-  }
-  function b64urlEncode(str){return btoa(unescape(encodeURIComponent(str))).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");}
-  function legacyCopy(text){
-    var ta=document.createElement("textarea");ta.value=text;ta.style.position="fixed";ta.style.opacity="0";
-    document.body.appendChild(ta);ta.select();try{document.execCommand("copy");}catch(e){}document.body.removeChild(ta);
-  }
-})();
 </script>
+<script src="demo.js"></script>
 </body>
 </html>

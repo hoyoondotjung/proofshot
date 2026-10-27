@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-<title>ProofShot — Proof camera</title>
-<meta name="description" content="Shoot live, seal the original fingerprint, anchor it into the Bitcoin blockchain." />
+<title>ProofShot | Proof camera</title>
+<meta name="description" content="Save a camera photo and verify its file fingerprint against a Bitcoin timestamp." />
 <meta name="theme-color" content="#050506" />
 <meta name="robots" content="noindex" />
 <link rel="manifest" href="manifest.webmanifest" />
@@ -19,7 +19,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
 <style>
   :root{
-    --bg:#050506;--panel:#0b0c0e;--text:#fff;--dim:#5a5d63;--soft:#b9bcc2;
+    --bg:#050506;--panel:#0b0c0e;--text:#fff;--dim:#a0a7b3;--soft:#b9bcc2;
     --line:rgba(255,255,255,.09);--accent:#3b82f6;--accent-soft:rgba(59,130,246,.1);
     --ok:#3b82f6;--warn:#f59e0b;--bad:#f87171;
     --safe-top:env(safe-area-inset-top,0px);--safe-bottom:env(safe-area-inset-bottom,0px);
@@ -107,51 +107,59 @@
   .linkbox.show{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;line-clamp:3;overflow:hidden}
   .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(96px + var(--safe-bottom));background:#16181c;border:1px solid var(--line);color:#fff;font-size:13px;font-weight:600;padding:11px 20px;border-radius:100px;z-index:40;opacity:0;transition:opacity .25s;pointer-events:none}
   .toast.show{opacity:1}
+  .header-actions{display:flex;gap:8px;align-items:center}
+  .det-main .sub{font-size:13px;color:var(--dim);line-height:1.6;margin:14px 0}
+  .brand b{color:#fff}
+  button:focus-visible,a:focus-visible{outline:3px solid #93c5fd;outline-offset:4px}
+  .shutter:disabled{opacity:.4;cursor:wait}
+  @media(max-width:420px){.pcard{grid-template-columns:54px 1fr}.pcard .chip{grid-column:2;justify-self:start}.hd .in{padding:0 12px}.acts .r2{grid-template-columns:1fr}}
+  @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 </style>
 </head>
 <body>
+<noscript><p style="padding:24px;background:#111827;color:#fff">JavaScript is required for file records and verification. 파일 기록과 검증을 사용하려면 JavaScript를 켜세요.</p></noscript>
 
   <!-- ============ HOME ============ -->
   <div class="view active" id="viewHome">
     <header class="hd"><div class="in">
       <span class="brand">
         <img src="icons/icon-192.png" alt="">
-        <span><b>ProofShot</b><span>Proof camera · beta</span></span>
+        <span><b>ProofShot</b><span data-ko="사진 기록 · 베타">Photo records · beta</span></span>
       </span>
-      <button class="btn btn-sm" id="btnInstall" hidden>Install app</button>
+      <div class="header-actions"><button class="btn btn-sm" data-language>한국어</button><button class="btn btn-sm" id="btnInstall" hidden data-ko="앱 설치">Install app</button></div>
     </div></header>
     <main class="home-main">
       <div class="ios-hint" id="iosHint" hidden>
-        <b>Install on iPhone</b>
-        <span>Tap <span class="shr">⬆</span> <b>Share</b> in Safari, then choose <b>“Add to Home Screen”</b>. ProofShot runs full-screen with the camera, like a native app.</span>
-        <button class="btn btn-sm" id="iosHintClose">Got it</button>
+        <b data-ko="iPhone에 설치">Install on iPhone</b>
+        <span><span data-ko="Safari의 공유 메뉴에서 ‘홈 화면에 추가’를 선택하세요.">In Safari, choose Share, then Add to Home Screen.</span></span>
+        <button class="btn btn-sm" id="iosHintClose" data-ko="확인">Got it</button>
       </div>
-      <h1>My proofs</h1>
-      <p class="sub">Live capture only — gallery upload is not available in ProofShot.</p>
+      <h1 data-ko="내 사진 기록">My photo records</h1>
+      <p class="sub" data-ko="사진 원본은 이 브라우저에 저장됩니다. 공유 링크를 만들면 원본 사진·기기 표시·기기 시각이 저장소에 업로드되며, 링크를 가진 사람이 볼 수 있습니다.">Originals are saved in this browser. Creating a share link uploads the photo, device label and device-reported time to the proof store; anyone with the link can view them.</p><p class="sub" data-ko="파일의 일치와 타임스탬프를 확인합니다. 실물의 진위, 소유권, 실제 촬영 시각을 보증하지 않습니다.">File matching and timestamps do not establish item authenticity, ownership or the actual capture time.</p><p id="homeError" role="alert" hidden></p><button id="btnLoadRetry" class="btn" hidden data-ko="기록 다시 불러오기">Retry loading records</button>
       <div class="empty" id="emptyState">
         <div class="glyph">◎</div>
-        No proofs yet.<br>Shoot your item live and its fingerprint is anchored<br>into the Bitcoin blockchain.
+        <span data-ko="아직 사진 기록이 없습니다.<br>사진을 찍으면 원본을 저장하고<br>파일 지문의 타임스탬프를 요청합니다.">No photo records yet.<br>Take a photo to save its original<br>and request a timestamp for its fingerprint.</span>
       </div>
       <div class="plist" id="plist"></div>
     </main>
-    <div class="fab-wrap"><button class="btn btn-accent fab" id="btnNew">◉ &nbsp;New proof</button></div>
+    <div class="fab-wrap"><button class="btn btn-accent fab" id="btnNew"><span data-ko="새 사진 기록">New photo record</span></button></div>
   </div>
 
   <!-- ============ CAPTURE ============ -->
-  <div class="cap" id="viewCap">
+  <div class="cap" id="viewCap" role="dialog" aria-modal="true" aria-label="Camera" data-ko-label="카메라">
     <video id="capVideo" playsinline muted autoplay></video>
     <canvas id="capCanvas" hidden></canvas>
     <div class="top">
       <span class="live"><i></i> LIVE CAPTURE</span>
-      <button class="btn btn-sm" id="btnCapClose">Cancel</button>
+      <button class="btn btn-sm" id="btnCapClose" data-ko="취소">Cancel</button>
     </div>
-    <div class="note">Only what this camera sees right now can become a proof.</div>
-    <div class="bottom"><button class="shutter" id="btnShutter" aria-label="Shoot"></button></div>
+    <div class="note" data-ko="카메라가 준비되면 촬영하세요. 화면 재촬영이나 가상 카메라는 판별하지 못합니다.">Capture when the camera is ready. Screen recaptures and virtual cameras cannot be ruled out.</div>
+    <div class="bottom"><button class="shutter" id="btnShutter" aria-label="Take photo" data-ko-label="사진 촬영" disabled></button></div>
     <div class="err" id="capErr" hidden>
       <div>📷</div>
-      <div id="capErrMsg">Camera access was denied.<br>ProofShot needs the camera — it has no other way to create a proof.</div>
-      <button class="btn btn-accent" id="btnCapRetry">Try again</button>
-      <button class="btn btn-sm" id="btnCapErrClose">Back</button>
+      <div id="capErrMsg">Camera access was denied.<br>ProofShot needs camera access to capture a photo.</div>
+      <button class="btn btn-accent" id="btnCapRetry" data-ko="다시 시도">Try again</button>
+      <button class="btn btn-sm" id="btnCapErrClose" data-ko="돌아가기">Back</button>
     </div>
   </div>
 
@@ -160,402 +168,45 @@
     <header class="hd"><div class="in">
       <span class="brand">
         <img src="icons/icon-192.png" alt="">
-        <span><b>ProofShot</b><span id="detSub">Proof detail</span></span>
+        <span><b>ProofShot</b><span id="detSub" data-ko="사진 기록">Proof detail</span></span>
       </span>
-      <button class="btn btn-sm" id="btnBack">← My proofs</button>
+      <button class="btn btn-sm" id="btnBack" data-ko="← 내 사진 기록">← My proofs</button>
     </div></header>
     <main class="det-main">
       <div class="photo"><img id="detPhoto" alt="Captured item"></div>
-      <div class="seal-banner" id="sealBanner"><span id="sealIcon">⏳</span><span id="sealText"><b>Sealing…</b></span></div>
-      <div class="rows">
-        <div class="row"><span class="k">Capture time</span><span class="v" id="detTime">—</span></div>
-        <div class="row"><span class="k">Device</span><span class="v" id="detDevice">—</span></div>
-        <div class="row"><span class="k">Original fingerprint · SHA-256</span><span class="v mono" id="detHash">—</span></div>
+      <div class="seal-banner" id="sealBanner" role="status" aria-live="polite"><span id="sealIcon">⏳</span><span id="sealText"><b data-ko="파일 기록 준비 중…">Preparing file record…</b></span></div>
+      <p id="storageNotice" class="sub" role="status"></p><button class="btn" id="btnRetrySave" hidden data-ko="기기에 저장 다시 시도">Retry saving on this device</button><div class="rows">
+        <div class="row"><span class="k" data-ko="기기에서 보고한 시각 (미인증)">Device-reported time (unverified)</span><span class="v" id="detTime">-</span></div>
+        <div class="row"><span class="k" data-ko="기기 표시 (미인증)">Device label (unverified)</span><span class="v" id="detDevice">-</span></div>
+        <div class="row"><span class="k" data-ko="원본 파일 지문 · SHA-256">Original fingerprint · SHA-256</span><span class="v mono" id="detHash">-</span></div>
         <div class="row">
-          <span class="k">Blockchain anchor · Bitcoin (OpenTimestamps)</span>
-          <span class="v" id="detAnchor" style="font-size:13.5px">—</span>
+          <span class="k" data-ko="블록체인 타임스탬프 · Bitcoin (OpenTimestamps)">Blockchain anchor · Bitcoin (OpenTimestamps)</span>
+          <span class="v" id="detAnchor" style="font-size:13.5px">-</span>
           <span class="d" id="detAnchorD" hidden></span>
         </div>
       </div>
       <div class="acts">
-        <button class="btn btn-accent btn-block" id="btnShare">Share verify link</button>
+        <button class="btn btn-accent btn-block" id="btnShare" data-ko="검증 링크 공유">Share verify link</button>
         <div class="r2">
-          <button class="btn" id="btnCopyLink">Copy link</button>
-          <button class="btn" id="btnRecheckA">Re-check anchor</button>
+          <button class="btn" id="btnCopyLink" data-ko="링크 복사">Copy link</button>
+          <button class="btn" id="btnRecheckA" data-ko="타임스탬프 다시 확인">Re-check anchor</button>
         </div>
         <div class="r2">
-          <button class="btn" id="btnSavePhoto" hidden>Save photo</button>
-          <button class="btn" id="btnSaveOts">Save .ots proof</button>
+          <button class="btn" id="btnSavePhoto" hidden data-ko="원본 사진 저장">Save photo</button>
+          <button class="btn" id="btnSaveOts" data-ko=".ots 증명 저장">Save .ots proof</button>
         </div>
-        <a class="btn" id="btnBlock" target="_blank" rel="noopener" hidden>View Bitcoin block →</a>
-        <button class="btn btn-sm btn-danger" id="btnDelete">Delete this proof</button>
+        <a class="btn" id="btnBlock" target="_blank" rel="noopener" hidden data-ko="Bitcoin 블록 보기 →">View Bitcoin block →</a>
+        <button class="btn btn-sm btn-danger" id="btnDelete" data-ko="이 기기의 기록 삭제">Delete this proof</button>
       </div>
-      <div class="linkbox" id="linkBox"></div>
+      <p id="shareStatus" class="sub" role="status" aria-live="polite"></p><div class="linkbox" id="linkBox"></div>
     </main>
   </div>
 
-  <div class="toast" id="toast"></div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script src="config.js"></script>
 <script src="ots.js"></script>
-<script>
-(function(){
-"use strict";
-function $(s){return document.querySelector(s);}
-function show(el){if(el)el.hidden=false;}
-function hide(el){if(el)el.hidden=true;}
-
-/* ---------------- service worker + install ---------------- */
-if("serviceWorker" in navigator){
-  navigator.serviceWorker.register("sw.js").catch(function(){});
-}
-var deferredInstall=null;
-window.addEventListener("beforeinstallprompt",function(e){
-  e.preventDefault();deferredInstall=e;show($("#btnInstall"));
-});
-$("#btnInstall").addEventListener("click",function(){
-  if(!deferredInstall)return;
-  deferredInstall.prompt();
-  deferredInstall.userChoice.finally(function(){deferredInstall=null;hide($("#btnInstall"));});
-});
-
-/* iOS has no install prompt — show "Add to Home Screen" guidance instead */
-var isIOS=/iPhone|iPad|iPod/.test(navigator.userAgent)||(/Macintosh/.test(navigator.userAgent)&&navigator.maxTouchPoints>1);
-var isStandalone=(window.matchMedia&&window.matchMedia("(display-mode: standalone)").matches)||window.navigator.standalone===true;
-if(isIOS&&!isStandalone&&localStorage.getItem("psIosHintDone")!=="1")show($("#iosHint"));
-$("#iosHintClose").addEventListener("click",function(){
-  localStorage.setItem("psIosHintDone","1");hide($("#iosHint"));
-});
-
-/* ---------------- tiny IndexedDB helper ---------------- */
-function idb(){
-  return new Promise(function(res,rej){
-    var rq=indexedDB.open("proofshot",1);
-    rq.onupgradeneeded=function(){rq.result.createObjectStore("proofs",{keyPath:"id"});};
-    rq.onsuccess=function(){res(rq.result);};
-    rq.onerror=function(){rej(rq.error);};
-  });
-}
-function dbPut(rec){return idb().then(function(db){return new Promise(function(res,rej){
-  var tx=db.transaction("proofs","readwrite");tx.objectStore("proofs").put(rec);
-  tx.oncomplete=function(){res();};tx.onerror=function(){rej(tx.error);};
-});});}
-function dbAll(){return idb().then(function(db){return new Promise(function(res,rej){
-  var rq=db.transaction("proofs").objectStore("proofs").getAll();
-  rq.onsuccess=function(){res(rq.result||[]);};rq.onerror=function(){rej(rq.error);};
-});});}
-function dbDel(id){return idb().then(function(db){return new Promise(function(res,rej){
-  var tx=db.transaction("proofs","readwrite");tx.objectStore("proofs").delete(id);
-  tx.oncomplete=function(){res();};tx.onerror=function(){rej(tx.error);};
-});});}
-
-/* ---------------- views ---------------- */
-var current=null; /* record shown in detail view */
-function showView(id){
-  document.querySelectorAll(".view").forEach(function(v){v.classList.remove("active");});
-  $("#"+id).classList.add("active");
-  window.scrollTo(0,0);
-}
-
-/* ---------------- home list ---------------- */
-function fmtTime(iso){
-  try{return new Intl.DateTimeFormat("en-US",{month:"short",day:"numeric",hour:"2-digit",minute:"2-digit",hour12:true}).format(new Date(iso));}
-  catch(e){return iso;}
-}
-function chip(rec){
-  if(rec.status==="confirmed")return '<span class="chip ok">✓ BITCOIN #'+rec.height+'</span>';
-  if(rec.status==="pending")return '<span class="chip wait">⏳ ANCHORING</span>';
-  return '<span class="chip none">NOT ANCHORED</span>';
-}
-function renderHome(){
-  dbAll().then(function(all){
-    all.sort(function(a,b){return a.iso<b.iso?1:-1;});
-    var list=$("#plist");
-    list.innerHTML="";
-    if(!all.length){show($("#emptyState"));return;}
-    hide($("#emptyState"));
-    all.forEach(function(rec){
-      var b=document.createElement("button");
-      b.className="pcard";
-      b.innerHTML='<img src="'+rec.thumb+'" alt=""><span><span class="t">'+fmtTime(rec.iso)+'</span><span class="h mono">'+rec.hash.slice(0,4)+"·"+rec.hash.slice(4,8)+"·"+rec.hash.slice(8,12)+"…</span></span>"+chip(rec);
-      b.addEventListener("click",function(){openDetail(rec,false);});
-      list.appendChild(b);
-    });
-  });
-}
-
-/* ---------------- capture ---------------- */
-var stream=null;
-var video=$("#capVideo"),canvas=$("#capCanvas");
-$("#btnNew").addEventListener("click",openCamera);
-$("#btnCapRetry").addEventListener("click",openCamera);
-$("#btnCapClose").addEventListener("click",closeCamera);
-$("#btnCapErrClose").addEventListener("click",closeCamera);
-
-function openCamera(){
-  hide($("#capErr"));
-  $("#viewCap").classList.add("active");
-  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){camErr("This browser can't access a camera.");return;}
-  navigator.mediaDevices.getUserMedia({video:{facingMode:"environment",width:{ideal:1920}},audio:false})
-    .then(function(s){stream=s;video.srcObject=s;video.play();})
-    .catch(function(){camErr("Camera access was denied.\nProofShot needs the camera — it has no other way to create a proof.");});
-}
-function camErr(msg){$("#capErrMsg").innerHTML=msg.replace(/\n/g,"<br>");show($("#capErr"));}
-function stopStream(){if(stream){stream.getTracks().forEach(function(t){t.stop();});stream=null;}video.srcObject=null;}
-function closeCamera(){stopStream();$("#viewCap").classList.remove("active");}
-
-$("#btnShutter").addEventListener("click",function(){
-  if(!stream)return;
-  var w=video.videoWidth||1280,h=video.videoHeight||960;
-  canvas.width=w;canvas.height=h;
-  canvas.getContext("2d").drawImage(video,0,0,w,h);
-  stopStream();
-  $("#viewCap").classList.remove("active");
-  sealCapture();
-});
-
-/* ---------------- seal + anchor ---------------- */
-/* kept small: the thumb travels inside the verify link, and messengers
-   (KakaoTalk especially) break very long URLs */
-function makeThumb(srcCanvas,maxW){
-  var w=srcCanvas.width,h=srcCanvas.height;
-  if(w<=maxW)return srcCanvas.toDataURL("image/jpeg",0.6);
-  var ratio=maxW/w,c=document.createElement("canvas");
-  c.width=Math.round(w*ratio);c.height=Math.round(h*ratio);
-  c.getContext("2d").drawImage(srcCanvas,0,0,c.width,c.height);
-  return c.toDataURL("image/jpeg",0.55);
-}
-function detectDevice(){
-  var ua=navigator.userAgent;
-  if(/iPhone/.test(ua))return "iPhone";
-  if(/iPad/.test(ua))return "iPad";
-  if(/Android/.test(ua)){var m=ua.match(/Android.*?;\s([^;)]+?)(?:\sBuild|;|\))/);return (m&&m[1]?m[1].trim():"Android device");}
-  if(/Macintosh/.test(ua))return "Mac";
-  if(/Windows/.test(ua))return "Windows PC";
-  return "Web browser";
-}
-var lastFullUrl=null; /* full-res photo of the most recent capture (session only) */
-
-/* ---------------- proof store (short verify links) ----------------
-   Uploads the ORIGINAL (hashed) image + metadata to the proof-store
-   Worker so the verify link is ~60 chars and the buyer's browser can
-   re-hash the real original. Falls back to legacy long fragment links
-   when offline or PS_API is unset — capture never blocks on network. */
-function psShortLink(id){return new URL("verify.html",location.href).href+"?p="+id;}
-function psUpload(rec,fullUrl){
-  var body={v:3,iso:rec.iso,d:rec.device,h:rec.hash,img:fullUrl};
-  if(rec.ots)body.ots=PSOTS.b64urlBytes(rec.ots);
-  return fetch((window.PS_API||"")+"/p",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body)})
-    .then(function(r){if(!r.ok)throw new Error("store "+r.status);return r.json();})
-    .then(function(j){
-      rec.pid=j.id;rec.link=psShortLink(j.id);
-      /* stamp may have finished while we were uploading */
-      return psAttachOts(rec).then(function(){return rec;});
-    });
-}
-function psAttachOts(rec){
-  if(!rec.pid||!rec.ots)return Promise.resolve();
-  return fetch((window.PS_API||"")+"/p/"+rec.pid+"/ots",{method:"PUT",headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({ots:PSOTS.bytesB64url(rec.ots)})}).catch(function(){});
-}
-function refreshLinkBox(rec){
-  if(!current||current.id!==rec.id)return;
-  var lb=$("#linkBox");
-  if(lb.classList.contains("show"))lb.textContent=rec.link;
-}
-/* Buyers should only ever receive the short store link — while the original
-   is still uploading, hold the share/copy buttons instead of handing out the
-   long legacy fallback link (which can't auto-verify in the buyer's browser). */
-function setShareUI(rec){
-  if(!current||current.id!==rec.id)return;
-  var waiting=!!rec._uploading&&!rec.pid;
-  var sh=$("#btnShare"),cp=$("#btnCopyLink");
-  sh.disabled=waiting;cp.disabled=waiting;
-  sh.textContent=waiting?"Preparing link…":"Share verify link";
-  cp.textContent=waiting?"Preparing…":"Copy link";
-}
-
-function sealCapture(){
-  var fullUrl=canvas.toDataURL("image/jpeg",0.92);
-  lastFullUrl=fullUrl;
-  var thumb=makeThumb(canvas,340);
-  var bin=atob(fullUrl.split(",")[1]),bytes=new Uint8Array(bin.length);
-  for(var i=0;i<bin.length;i++)bytes[i]=bin.charCodeAt(i);
-  PSOTS.sha256(bytes).then(function(digest){
-    var now=new Date();
-    var rec={
-      id:PSOTS.hex(digest).slice(0,12)+"-"+now.getTime(),
-      iso:now.toISOString(),
-      device:detectDevice(),
-      hash:PSOTS.hex(digest),
-      thumb:thumb,
-      ots:null,status:"none",height:null,blockTime:null
-    };
-    rec.link=makeLink(rec); /* legacy fallback — replaced by short link when upload lands */
-    rec._uploading=true;
-    openDetail(rec,true);
-    dbPut(rec).then(renderHome);
-    /* upload original to proof store → short, messenger-safe link */
-    psUpload(rec,fullUrl).then(function(){
-      refreshLinkBox(rec);
-      return dbPut(rec);
-    }).catch(function(){/* offline / PS_API unset — legacy link keeps working */})
-    .then(function(){rec._uploading=false;setShareUI(rec);});
-    /* if the store is slow, don't hold the buttons hostage — release after 10 s
-       (the upload keeps going; the link upgrades in place when it lands) */
-    setTimeout(function(){if(rec._uploading){rec._uploading=false;setShareUI(rec);}},10000);
-    /* anchor into Bitcoin via OpenTimestamps */
-    setAnchorUI(rec,"working");
-    PSOTS.stamp(digest).then(function(res){
-      rec.ots=res.ots;rec.status="pending";
-      if(!rec.pid)rec.link=makeLink(rec);
-      psAttachOts(rec);
-      return dbPut(rec);
-    }).then(function(){
-      if(current&&current.id===rec.id)setAnchorUI(rec,"pending");
-      renderHome();
-    }).catch(function(){
-      if(current&&current.id===rec.id)setAnchorUI(rec,"failed");
-    });
-  });
-}
-function makeLink(rec){
-  var payload={v:2,t:fmtTime(rec.iso),iso:rec.iso,d:rec.device,h:rec.hash,img:rec.thumb};
-  if(rec.ots)payload.ots=PSOTS.b64urlBytes(rec.ots);
-  var json=JSON.stringify(payload);
-  var token=btoa(unescape(encodeURIComponent(json))).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
-  return new URL("verify.html",location.href).href+"#"+token;
-}
-
-/* ---------------- detail view ---------------- */
-function openDetail(rec,fresh){
-  current=rec;
-  $("#detSub").textContent=fresh?"Proof created":"Proof detail";
-  $("#detPhoto").src=rec.thumb;
-  $("#detTime").textContent=fmtTime(rec.iso);
-  $("#detDevice").textContent=rec.device;
-  $("#detHash").textContent=rec.hash.replace(/(.{8})/g,"$1 ").trim();
-  $("#linkBox").classList.remove("show");$("#linkBox").textContent="";
-  hide($("#btnBlock"));
-  if(fresh&&lastFullUrl)show($("#btnSavePhoto"));else hide($("#btnSavePhoto"));
-  if(rec.status==="confirmed")setAnchorUI(rec,"confirmed");
-  else if(rec.status==="pending")setAnchorUI(rec,"pending");
-  else setAnchorUI(rec,fresh?"working":"failed");
-  setShareUI(rec);
-  showView("viewDet");
-  /* quietly refresh pending anchors when opened */
-  if(!fresh&&rec.status==="pending")recheck(true);
-}
-function setAnchorUI(rec,state){
-  var a=$("#detAnchor"),d=$("#detAnchorD"),b=$("#sealBanner"),si=$("#sealIcon"),st=$("#sealText");
-  hide(d);a.style.color="";
-  if(state==="working"){
-    a.textContent="Anchoring to Bitcoin…";
-    si.textContent="⏳";st.innerHTML="<b>Sealed on this device.</b> Submitting fingerprint to OpenTimestamps…";
-  }else if(state==="pending"){
-    a.textContent="⏳ Submitted — awaiting Bitcoin confirmation (~1–6 h)";
-    a.style.color="var(--warn)";
-    si.textContent="🔗";st.innerHTML="<b>Anchor submitted.</b> Your sealed listing photo powers the buyer\u2019s verify link; only a blinded fingerprint went to the anchoring servers.";
-  }else if(state==="confirmed"){
-    a.innerHTML="✓ Anchored in Bitcoin block #"+rec.height;
-    a.style.color="var(--accent)";
-    show(d);d.textContent="Merkle root independently verified against the public Bitcoin blockchain. Block time: "+new Date(rec.blockTime).toLocaleString()+" — this fingerprint provably existed before that moment.";
-    si.textContent="✓";st.innerHTML="<b>Proof complete.</b> Verifiable by anyone, forever — no trust in ProofShot required.";
-    if(rec.explorer){$("#btnBlock").href=rec.explorer;show($("#btnBlock"));}
-  }else{
-    a.textContent="Not anchored — no connection to calendar servers";
-    a.style.color="var(--bad)";
-    si.textContent="⚠";st.innerHTML="<b>Sealed on this device only.</b> Re-check when you're back online to anchor it.";
-  }
-}
-$("#btnBack").addEventListener("click",function(){current=null;lastFullUrl=null;renderHome();showView("viewHome");});
-
-/* re-check anchor status */
-function recheck(quiet){
-  var rec=current;
-  if(!rec)return;
-  if(!rec.ots){
-    /* never submitted (offline at capture) — try to stamp now */
-    if(!quiet)toast("Submitting to calendar servers…");
-    PSOTS.stamp(PSOTS.unhex(rec.hash)).then(function(res){
-      rec.ots=res.ots;rec.status="pending";
-      if(rec.pid)psAttachOts(rec);else rec.link=makeLink(rec);
-      return dbPut(rec);
-    }).then(function(){setAnchorUI(rec,"pending");renderHome();})
-    .catch(function(){if(!quiet)toast("Still no connection");});
-    return;
-  }
-  if(!quiet)toast("Checking Bitcoin blockchain…");
-  PSOTS.checkUpgrade(rec.ots).then(function(res){
-    if(res.status==="confirmed"&&res.merkleOk!==false){
-      rec.status="confirmed";rec.height=res.height;rec.blockTime=res.blockTime;rec.explorer=res.explorer;
-      dbPut(rec).then(renderHome);
-      if(current&&current.id===rec.id)setAnchorUI(rec,"confirmed");
-      if(!quiet)toast("Confirmed in Bitcoin block #"+res.height);
-    }else if(res.status==="pending"){
-      if(!quiet)toast("Still awaiting Bitcoin confirmation");
-    }else{
-      if(!quiet)toast("Could not verify — try again later");
-    }
-  });
-}
-$("#btnRecheckA").addEventListener("click",function(){recheck(false);});
-
-/* share / copy / save */
-$("#btnShare").addEventListener("click",function(){
-  if(!current)return;
-  var link=current.link;
-  if(!navigator.share){copyLink();return;}
-  /* url-only payload — most compatible with Android share targets (incl. KakaoTalk) */
-  navigator.share({url:link}).then(function(){
-    toast("Shared");
-  }).catch(function(err){
-    if(err&&err.name==="AbortError")return; /* user closed the share sheet */
-    /* share sheet refused (payload too large, unsupported, …) → copy instead */
-    copyLink("Share unavailable — link copied. Paste it into KakaoTalk.");
-  });
-});
-function copyLink(msg){
-  var link=current.link;
-  var done=function(){toast(msg||"Link copied — paste it anywhere");var lb=$("#linkBox");lb.textContent=link;lb.classList.add("show");};
-  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(link).then(done,function(){legacyCopy(link);done();});}
-  else{legacyCopy(link);done();}
-}
-function legacyCopy(text){
-  var ta=document.createElement("textarea");ta.value=text;ta.style.position="absolute";ta.style.opacity="0";
-  document.body.appendChild(ta);ta.select();try{document.execCommand("copy");}catch(e){}document.body.removeChild(ta);
-}
-$("#btnCopyLink").addEventListener("click",function(){copyLink();});
-$("#btnSavePhoto").addEventListener("click",function(){
-  if(!lastFullUrl)return;
-  dl(lastFullUrl,"proofshot-"+current.hash.slice(0,8)+".jpg");
-  toast("Photo saved — keep it: it re-verifies against the anchor");
-});
-$("#btnSaveOts").addEventListener("click",function(){
-  if(!current||!current.ots){toast("Not anchored yet");return;}
-  var blob=new Blob([current.ots],{type:"application/vnd.opentimestamps.v1"});
-  dl(URL.createObjectURL(blob),"proofshot-"+current.hash.slice(0,8)+".ots");
-  toast(".ots proof saved");
-});
-$("#btnDelete").addEventListener("click",function(){
-  if(!current)return;
-  if(!confirm("Delete this proof from this phone? Anyone holding the verify link keeps their copy."))return;
-  dbDel(current.id).then(function(){current=null;renderHome();showView("viewHome");});
-});
-function dl(href,name){
-  var a=document.createElement("a");a.href=href;a.download=name;
-  document.body.appendChild(a);a.click();document.body.removeChild(a);
-}
-
-/* toast */
-var toastTimer=null;
-function toast(msg){
-  var t=$("#toast");t.textContent=msg;t.classList.add("show");
-  clearTimeout(toastTimer);toastTimer=setTimeout(function(){t.classList.remove("show");},2400);
-}
-
-renderHome();
-})();
-</script>
+<script src="proof.js"></script>
+<script src="app.js"></script>
 </body>
 </html>
