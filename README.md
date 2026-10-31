@@ -1,7 +1,7 @@
 # ProofShot
 
 A browser camera and file-timestamp demo, originally archived from
-<https://proofshotglobal.pages.dev/>.
+the former `proofshotglobal.pages.dev` site (since removed).
 
 ProofShot stores original photo bytes, calculates their SHA-256 fingerprint,
 requests an OpenTimestamps timestamp and checks the timestamp against public
