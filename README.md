@@ -83,6 +83,7 @@ Reference: <https://opentimestamps.org/#how-it-works> and the
 - `proof.js`: shared record validation, language, upload, clipboard and downloads
 - `ots.js`: timestamp parsing, canonical tree merging, upgrading and verification
 - `server.py`: loopback-only development proof store
+- `_worker.js`: Cloudflare Pages proof store (KV binding `PROOFS`)
 - `sw.js`: public-shell cache; proof API responses are never cached
 - `config.js`: optional separate proof-store base URL (`PS_API`)
 
@@ -109,15 +110,19 @@ calendar connectivity checks are separate from these deterministic tests.
 The Cloudflare Pages project `proofshot` is connected to this repository: every
 push to `main` is built and published to <https://proofshot.pages.dev/>, and other
 branches get preview URLs. The build command copies only the public files
-(`STATIC`, `assets/` and `icons/` from `server.py`) into `_site`, the output
-directory. When you add a public file, add it to `STATIC` and to the build command
-in the Pages settings.
+(`STATIC`, `assets/` and `icons/` from `server.py`) plus `_worker.js` into `_site`,
+the output directory. When you add a public file, add it to `STATIC` and to the
+build command in the Pages settings.
 
-That deployment is static: it has no proof store, so short verification links are
-not available there. The original site's `_worker.js` and deployment credentials
-are not in this archive. `server.py` is a development adapter, not a production
-backend. A production store requires HTTPS, durable storage, retention/deletion
-controls, upload limits and operational protections before publishing.
+`_worker.js` is the proof store carried over from the former
+`proofshotglobal.pages.dev` site. It serves `/p`, `/p/:id`, `/p/:id/ots` and
+`/challenge` from the KV binding `PROOFS` (namespace `proofshot-proofs`, production
+only; preview deployments have no store) and passes every other request to the
+static files. It differs from `server.py`: IDs are the first 12 hex characters of
+the photo hash, uploads must be JPEG, it returns no `editToken`, and `PUT /p/:id/ots`
+is accepted from anyone whose `.ots` matches the stored digest. `server.py` remains
+a development adapter. Retention/deletion controls and stricter upload limits are
+still needed before wider publishing.
 
 Store contract (JSON, no-store responses):
 
