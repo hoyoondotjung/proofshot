@@ -106,10 +106,18 @@ calendar connectivity checks are separate from these deterministic tests.
 
 ## Production deployment
 
-The original site's `_worker.js` and deployment credentials are not in this
-archive. `server.py` is a development adapter, not a production backend. Production
-requires HTTPS, a durable proof store, retention/deletion controls, upload limits
-and operational protections before publishing. This change does not deploy a site.
+The Cloudflare Pages project `proofshot` is connected to this repository: every
+push to `main` is built and published to <https://proofshot.pages.dev/>, and other
+branches get preview URLs. The build command copies only the public files
+(`STATIC`, `assets/` and `icons/` from `server.py`) into `_site`, the output
+directory. When you add a public file, add it to `STATIC` and to the build command
+in the Pages settings.
+
+That deployment is static: it has no proof store, so short verification links are
+not available there. The original site's `_worker.js` and deployment credentials
+are not in this archive. `server.py` is a development adapter, not a production
+backend. A production store requires HTTPS, durable storage, retention/deletion
+controls, upload limits and operational protections before publishing.
 
 Store contract (JSON, no-store responses):
 
